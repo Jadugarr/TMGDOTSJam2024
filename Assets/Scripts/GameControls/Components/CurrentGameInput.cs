@@ -1,8 +1,8 @@
 ﻿using Unity.Entities;
-using UnityEngine;
+using Unity.Mathematics;
 
 namespace PotatoFinch.TmgDotsJam.GameControls {
 	public struct CurrentGameInput : IComponentData {
-		public Vector2 CurrentMovementInputVector;
+		public float2 CurrentMovementInputVector;
 	}
 }
