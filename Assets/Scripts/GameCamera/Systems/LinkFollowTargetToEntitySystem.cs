@@ -11,7 +11,7 @@ namespace PotatoFinch.TmgDotsJam.GameCamera {
 		private EntityArchetype _cameraFollowEntityArchetype;
 		
 		public void OnCreate(ref SystemState state) {
-			_cameraFollowEntityArchetype = state.EntityManager.CreateArchetype(typeof(CameraFollowTargetTag), typeof(LocalTransform), typeof(LocalToWorld), typeof(MovementSpeed), typeof(GameObjectCompanionLink));
+			_cameraFollowEntityArchetype = state.EntityManager.CreateArchetype(typeof(CameraFollowTargetTag), typeof(LocalTransform), typeof(LocalToWorld), typeof(MovementSpeed), typeof(GameObjectCompanionLink), typeof(EntityToFocus));
 			
 			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
 		}
