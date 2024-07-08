@@ -1,15 +1,21 @@
-﻿using PotatoFinch.TmgDotsJam.Common;
+﻿using System;
+using PotatoFinch.TmgDotsJam.Common;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 namespace PotatoFinch.TmgDotsJam.Enemy {
 	[UpdateInGroup(typeof(EnemySystemGroup))]
 	public partial struct SpawnEnemySystem : ISystem {
-		[BurstCompile]
+		private Random _random;
+		
 		public void OnCreate(ref SystemState state) {
+			_random = new Random(1 + (uint)DateTime.UtcNow.Millisecond);
+			
 			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
 			state.RequireForUpdate<PrefabContainer>();
 		}
@@ -31,7 +37,11 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				ecb.Instantiate(prefabContainer.SmallEnemyPrefab, spawnedEntities);
 
 				foreach (Entity spawnedEntity in spawnedEntities) {
-					ecb.SetComponent(spawnedEntity, new LocalTransform { Position = pointOrigin.ValueRO.Value, Rotation = quaternion.identity, Scale = 1f });
+					float3 spawnDirection = new float3(1f, 0f, 0f);
+					spawnDirection = math.mul(quaternion.RotateY(_random.NextFloat(359f)), spawnDirection);
+					float spawnDistance = _random.NextFloat(pointRange.ValueRO.Value);
+					
+					ecb.SetComponent(spawnedEntity, new LocalTransform { Position = pointOrigin.ValueRO.Value + spawnDirection * spawnDistance, Rotation = quaternion.identity, Scale = 1f });
 				}
 
 				spawnAmount.ValueRW.CurrentValue += amountToSpawn;
