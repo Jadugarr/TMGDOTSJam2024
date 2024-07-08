@@ -11,6 +11,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				var enemyEntity = GetEntity(authoring, TransformUsageFlags.Dynamic);
 				AddComponent<EnemyTag>(enemyEntity);
 				AddComponent<Velocity>(enemyEntity);
+				AddComponent<EnemySpawnPointId>(enemyEntity);
 				AddComponent(enemyEntity, new MovementSpeed { Value = authoring._movementSpeed });
 			}
 		}

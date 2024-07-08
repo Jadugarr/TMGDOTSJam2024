@@ -49,7 +49,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 					int currentTries = 0;
 
 					var nativeArray = spawnedEnemyPositions;
-					
+
 					do {
 						currentTries++;
 						spawnDirection = math.mul(quaternion.RotateY(_random.NextFloat(359f)), spawnDirection);
@@ -80,6 +80,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 
 					nativeArray[index] = spawnPosition;
 					ecb.SetComponent(spawnedEntity, new LocalTransform { Position = spawnPosition, Rotation = quaternion.identity, Scale = 1f });
+					ecb.SetComponent(spawnedEntity, pointId.ValueRO);
 				}
 
 				spawnAmount.ValueRW.CurrentValue += amountToSpawn;
