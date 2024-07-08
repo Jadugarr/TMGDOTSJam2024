@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace PotatoFinch.TmgDotsJam.GameCamera {
+	[DisableAutoCreation]
 	[UpdateInGroup(typeof(GameCameraSystemGroup))]
 	public partial struct MoveCameraByInputSystem : ISystem {
 		[BurstCompile]
