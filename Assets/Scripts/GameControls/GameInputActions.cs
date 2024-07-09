@@ -37,6 +37,15 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""KillRandomEnemy"",
+                    ""type"": ""Button"",
+                    ""id"": ""325cdd55-f963-4f4c-9a01-3689e3668ffc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -105,6 +114,17 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""action"": ""PlayerMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bbe00384-e245-4a41-bae8-dca4c7b300c1"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KillRandomEnemy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -114,6 +134,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             // Gameplay
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
             m_Gameplay_PlayerMovement = m_Gameplay.FindAction("PlayerMovement", throwIfNotFound: true);
+            m_Gameplay_KillRandomEnemy = m_Gameplay.FindAction("KillRandomEnemy", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -176,11 +197,13 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         private readonly InputActionMap m_Gameplay;
         private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
         private readonly InputAction m_Gameplay_PlayerMovement;
+        private readonly InputAction m_Gameplay_KillRandomEnemy;
         public struct GameplayActions
         {
             private @GameInputActions m_Wrapper;
             public GameplayActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @PlayerMovement => m_Wrapper.m_Gameplay_PlayerMovement;
+            public InputAction @KillRandomEnemy => m_Wrapper.m_Gameplay_KillRandomEnemy;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -193,6 +216,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @PlayerMovement.started += instance.OnPlayerMovement;
                 @PlayerMovement.performed += instance.OnPlayerMovement;
                 @PlayerMovement.canceled += instance.OnPlayerMovement;
+                @KillRandomEnemy.started += instance.OnKillRandomEnemy;
+                @KillRandomEnemy.performed += instance.OnKillRandomEnemy;
+                @KillRandomEnemy.canceled += instance.OnKillRandomEnemy;
             }
 
             private void UnregisterCallbacks(IGameplayActions instance)
@@ -200,6 +226,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @PlayerMovement.started -= instance.OnPlayerMovement;
                 @PlayerMovement.performed -= instance.OnPlayerMovement;
                 @PlayerMovement.canceled -= instance.OnPlayerMovement;
+                @KillRandomEnemy.started -= instance.OnKillRandomEnemy;
+                @KillRandomEnemy.performed -= instance.OnKillRandomEnemy;
+                @KillRandomEnemy.canceled -= instance.OnKillRandomEnemy;
             }
 
             public void RemoveCallbacks(IGameplayActions instance)
@@ -220,6 +249,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         public interface IGameplayActions
         {
             void OnPlayerMovement(InputAction.CallbackContext context);
+            void OnKillRandomEnemy(InputAction.CallbackContext context);
         }
     }
 }

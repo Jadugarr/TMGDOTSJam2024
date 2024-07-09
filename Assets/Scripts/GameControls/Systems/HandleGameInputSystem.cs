@@ -7,6 +7,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		private GameInputActions _gameInputActions;
 
 		private Vector2 _currentMovementInputVector;
+		private bool _killRandomEnemy;
 
 		protected override void OnCreate() {
 			_gameInputActions = new GameInputActions();
@@ -14,11 +15,13 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			
 			_gameInputActions.Gameplay.PlayerMovement.performed += OnPlayerMovementPerformed;
 			_gameInputActions.Gameplay.PlayerMovement.canceled += OnPlayerMovementCanceled;
+			
+			_gameInputActions.Gameplay.KillRandomEnemy.performed += OnKillRandomEnemyPerformed;
 
 			EntityManager.CreateSingleton<CurrentGameInput>();
 		}
 
-		private void OnPlayerMovementCanceled(InputAction.CallbackContext callbackContext) {
+		private void OnPlayerMovementCanceled(InputAction.CallbackContext _) {
 			_currentMovementInputVector = Vector2.zero;
 		}
 
@@ -30,7 +33,14 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		protected override void OnUpdate() {
 			SystemAPI.SetSingleton(new CurrentGameInput {
 				CurrentMovementInputVector = _currentMovementInputVector,
+				KillRandomEnemy = _killRandomEnemy,
 			});
+
+			_killRandomEnemy = false;
+		}
+
+		private void OnKillRandomEnemyPerformed(InputAction.CallbackContext _) {
+			_killRandomEnemy = true;
 		}
 	}
 }

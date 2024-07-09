@@ -35,8 +35,8 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 					continue;
 				}
 
-				using NativeArray<Entity> spawnedEntities = new NativeArray<Entity>(spawnAmount.ValueRO.MaxValue, Allocator.Temp);
-				using NativeArray<float3> spawnedEnemyPositions = new NativeArray<float3>(spawnAmount.ValueRO.MaxValue, Allocator.Temp);
+				using NativeArray<Entity> spawnedEntities = new NativeArray<Entity>(amountToSpawn, Allocator.Temp);
+				using NativeArray<float3> spawnedEnemyPositions = new NativeArray<float3>(amountToSpawn, Allocator.Temp);
 
 				ecb.Instantiate(prefabContainer.SmallEnemyPrefab, spawnedEntities);
 

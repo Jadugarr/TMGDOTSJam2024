@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "KillRandomEnemy",
+                    "type": "Button",
+                    "id": "325cdd55-f963-4f4c-9a01-3689e3668ffc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -79,6 +88,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlayerMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bbe00384-e245-4a41-bae8-dca4c7b300c1",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KillRandomEnemy",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

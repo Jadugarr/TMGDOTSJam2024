@@ -4,5 +4,6 @@ using Unity.Mathematics;
 namespace PotatoFinch.TmgDotsJam.GameControls {
 	public struct CurrentGameInput : IComponentData {
 		public float2 CurrentMovementInputVector;
+		public bool KillRandomEnemy;
 	}
 }

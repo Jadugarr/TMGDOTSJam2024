@@ -1,10 +1,12 @@
-﻿using PotatoFinch.TmgDotsJam.Movement;
+﻿using PotatoFinch.TmgDotsJam.Health;
+using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Entities;
 using UnityEngine;
 
 namespace PotatoFinch.TmgDotsJam.Enemy {
 	public class EnemyAuthoring : MonoBehaviour {
 		[SerializeField] private float _movementSpeed;
+		[SerializeField] private float _maxHealth;
 
 		private class EnemyAuthoringBaker : Baker<EnemyAuthoring> {
 			public override void Bake(EnemyAuthoring authoring) {
@@ -12,6 +14,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				AddComponent<EnemyTag>(enemyEntity);
 				AddComponent<Velocity>(enemyEntity);
 				AddComponent<EnemySpawnPointId>(enemyEntity);
+				AddComponent(enemyEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth});
 				AddComponent(enemyEntity, new MovementSpeed { Value = authoring._movementSpeed });
 			}
 		}

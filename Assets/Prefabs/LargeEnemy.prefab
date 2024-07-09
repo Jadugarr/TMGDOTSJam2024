@@ -151,3 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementSpeed: 1
+  _maxHealth: 50
