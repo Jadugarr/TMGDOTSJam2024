@@ -19,7 +19,7 @@ namespace PotatoFinch.TmgDotsJam {
 				AddComponent(playerEntity, new MovementSpeed { Value = authoring._movementSpeed });
 				AddComponent(playerEntity, new AttackRange { Value = authoring._attackRange });
 				AddBuffer<AvailableAttack>(playerEntity);
-				AppendToBuffer(playerEntity, new AvailableAttack { AttackType = AttackType.Bullet, Cooldown = 2f, Range = 5f });
+				AppendToBuffer(playerEntity, new AvailableAttack { AttackType = AttackType.Bullet, Cooldown = 0.2f, Range = 5f });
 			}
 		}
 	}
