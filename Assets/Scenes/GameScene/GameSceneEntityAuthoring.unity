@@ -157,6 +157,8 @@ MonoBehaviour:
     type: 3}
   _largeEnemyAuthoring: {fileID: 8996078392197343634, guid: 0cc8daa3aca94d341979a4baebaa133c,
     type: 3}
+  _bulletAuthoring: {fileID: 612196126536197656, guid: df968a19396c4e442a58b6a75b8306a3,
+    type: 3}
 --- !u!4 &230663371
 Transform:
   m_ObjectHideFlags: 0

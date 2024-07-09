@@ -5,5 +5,6 @@ namespace PotatoFinch.TmgDotsJam.Common {
 		public Entity SmallEnemyPrefab;
 		public Entity MediumEnemyPrefab;
 		public Entity LargeEnemyPrefab;
+		public Entity BulletPrefab;
 	}
 }
