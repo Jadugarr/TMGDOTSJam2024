@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using PotatoFinch.TmgDotsJam.Health;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -26,12 +27,19 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 				ProjectileArray = projectileArray,
 			}.ScheduleParallel(state.Dependency);
 
+			var damageEnemiesJob = new DamageHitEnemiesJob {
+				ProjectileArray = projectileArray,
+				CharacterHealthLookup = SystemAPI.GetComponentLookup<CharacterHealth>(),
+				TargetEnemyLookup = SystemAPI.GetComponentLookup<TargetEnemy>(true),
+				DamageValueLookup = SystemAPI.GetComponentLookup<DamageValue>(true),
+			}.Schedule(checkJobHandle);
+
 			state.Dependency =
 				new DestroyProjectilesJob {
 						ProjectileArray = projectileArray,
 						ParallelEcb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
 					}
-					.Schedule(projectileArray.Length, 64, checkJobHandle);
+					.Schedule(projectileArray.Length, 64, damageEnemiesJob);
 
 			projectileArray.Dispose(state.Dependency);
 		}
@@ -44,8 +52,7 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 		private partial struct CheckProjectileReachedTargetJob : IJobEntity {
 			[ReadOnly] public ComponentLookup<LocalTransform> LocalTransformLookup;
 
-			[NativeDisableParallelForRestriction]
-			public NativeArray<Entity> ProjectileArray;
+			[NativeDisableParallelForRestriction] public NativeArray<Entity> ProjectileArray;
 
 			public void Execute(Entity projectileEntity, [EntityIndexInQuery] int index, RefRO<TargetEnemy> targetEnemy, RefRO<LocalTransform> projectilePosition) {
 				if (!LocalTransformLookup.TryGetComponent(targetEnemy.ValueRO.Value, out LocalTransform enemyPosition)) {
@@ -73,6 +80,34 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 				}
 
 				ParallelEcb.DestroyEntity(index, ProjectileArray[index]);
+			}
+		}
+
+		[BurstCompile]
+		private struct DamageHitEnemiesJob : IJob {
+			[ReadOnly] public NativeArray<Entity> ProjectileArray;
+
+			[ReadOnly] public ComponentLookup<TargetEnemy> TargetEnemyLookup;
+			[ReadOnly] public ComponentLookup<DamageValue> DamageValueLookup;
+			public ComponentLookup<CharacterHealth> CharacterHealthLookup;
+
+
+			public void Execute() {
+				foreach (var projectileEntity in ProjectileArray) {
+					if (!TargetEnemyLookup.TryGetComponent(projectileEntity, out TargetEnemy targetEnemy)) {
+						continue;
+					}
+
+					if (!CharacterHealthLookup.TryGetComponent(targetEnemy.Value, out CharacterHealth enemyHealth)) {
+						continue;
+					}
+
+					if (!DamageValueLookup.TryGetComponent(projectileEntity, out DamageValue damageValue)) {
+						continue;
+					}
+
+					CharacterHealthLookup[targetEnemy.Value] = new CharacterHealth { MaxHealth = enemyHealth.MaxHealth, CurrentHealth = enemyHealth.CurrentHealth - damageValue.Value };
+				}
 			}
 		}
 	}

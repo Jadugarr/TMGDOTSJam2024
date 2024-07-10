@@ -28,7 +28,11 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 			public float DeltaTime;
 
 			public void Execute(RefRW<Velocity> velocity, RefRO<LocalTransform> localTransform, RefRO<MovementSpeed> movementSpeed, RefRO<TargetEnemy> targetEnemy) {
-				float3 dir = math.normalize(LocalTransformLookup[targetEnemy.ValueRO.Value].Position - localTransform.ValueRO.Position);
+				if (!LocalTransformLookup.TryGetComponent(targetEnemy.ValueRO.Value, out LocalTransform enemyLocalTransform)) {
+					return;
+				}
+				
+				float3 dir = math.normalize(enemyLocalTransform.Position - localTransform.ValueRO.Position);
 
 				velocity.ValueRW.Value = dir * movementSpeed.ValueRO.Value * DeltaTime;
 			}
