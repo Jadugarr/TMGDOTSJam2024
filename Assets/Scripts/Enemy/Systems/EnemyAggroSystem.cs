@@ -1,4 +1,5 @@
 ﻿using PotatoFinch.TmgDotsJam.Combat;
+using PotatoFinch.TmgDotsJam.Health;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -22,6 +23,15 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 
 			foreach ((RefRO<LocalTransform> enemyPosition, RefRO<AggroRange> aggroRange, Entity enemyEntity) in SystemAPI.Query<RefRO<LocalTransform>, RefRO<AggroRange>>().WithAll<EnemyTag>().WithNone<TargetEnemy>().WithEntityAccess()) {
 				if (math.distance(playerPosition.ValueRO.Position, enemyPosition.ValueRO.Position) > aggroRange.ValueRO.Value) {
+					continue;
+				}
+
+				ecb.AddComponent(enemyEntity, new TargetEnemy { Value = playerEntity });
+			}
+
+			// TODO: This will crash if player is in aggro range and hits an enemy in the same frame
+			foreach ((RefRO<CharacterHealth> enemyHealth, Entity enemyEntity) in SystemAPI.Query<RefRO<CharacterHealth>>().WithChangeFilter<CharacterHealth>().WithAll<EnemyTag>().WithNone<TargetEnemy>().WithEntityAccess()) {
+				if (enemyHealth.ValueRO.CurrentHealth >= enemyHealth.ValueRO.MaxHealth) {
 					continue;
 				}
 
