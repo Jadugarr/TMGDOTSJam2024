@@ -152,3 +152,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 2
   _maxHealth: 25
+  _aggroRange: 6

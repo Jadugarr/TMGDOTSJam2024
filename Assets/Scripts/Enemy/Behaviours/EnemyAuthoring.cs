@@ -7,6 +7,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 	public class EnemyAuthoring : MonoBehaviour {
 		[SerializeField] private float _movementSpeed;
 		[SerializeField] private float _maxHealth;
+		[SerializeField] private float _aggroRange;
 
 		private class EnemyAuthoringBaker : Baker<EnemyAuthoring> {
 			public override void Bake(EnemyAuthoring authoring) {
@@ -16,6 +17,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				AddComponent<EnemySpawnPointId>(enemyEntity);
 				AddComponent(enemyEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth});
 				AddComponent(enemyEntity, new MovementSpeed { Value = authoring._movementSpeed });
+				AddComponent(enemyEntity, new AggroRange { Value = authoring._aggroRange });
 			}
 		}
 	}

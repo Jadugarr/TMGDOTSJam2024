@@ -7,14 +7,14 @@ using Unity.Transforms;
 
 namespace PotatoFinch.TmgDotsJam.Combat {
 	[UpdateInGroup(typeof(CombatSystemGroup))]
-	public partial struct SetProjectileVelocityToTargetEnemySystem : ISystem {
+	public partial struct SetVelocityToTargetEnemySystem : ISystem {
 		[BurstCompile]
 		public void OnCreate(ref SystemState state) {
 		}
 
 		[BurstCompile]
 		public void OnUpdate(ref SystemState state) {
-			state.Dependency = new SetProjectileVelocityJob { DeltaTime = SystemAPI.Time.DeltaTime, LocalTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true) }.ScheduleParallel(state.Dependency);
+			state.Dependency = new SetVelocityJob { DeltaTime = SystemAPI.Time.DeltaTime, LocalTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true) }.ScheduleParallel(state.Dependency);
 		}
 
 		[BurstCompile]
@@ -22,7 +22,7 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 		}
 
 		[BurstCompile]
-		private partial struct SetProjectileVelocityJob : IJobEntity {
+		private partial struct SetVelocityJob : IJobEntity {
 			[ReadOnly] public ComponentLookup<LocalTransform> LocalTransformLookup;
 
 			public float DeltaTime;

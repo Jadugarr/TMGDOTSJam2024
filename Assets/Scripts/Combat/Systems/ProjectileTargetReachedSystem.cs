@@ -49,6 +49,7 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 		}
 
 		[BurstCompile]
+		[WithAll(typeof(ProjectileTag))]
 		private partial struct CheckProjectileReachedTargetJob : IJobEntity {
 			[ReadOnly] public ComponentLookup<LocalTransform> LocalTransformLookup;
 
