@@ -1,4 +1,5 @@
 ﻿using PotatoFinch.TmgDotsJam.Enemy;
+using PotatoFinch.TmgDotsJam.Shop;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -14,6 +15,7 @@ namespace PotatoFinch.TmgDotsJam.Health {
 			_spawnPointQuery = state.GetEntityQuery(typeof(EnemySpawnPointId), typeof(EnemySpawnAmount));
 			
 			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
+			state.RequireForUpdate<OwnedGold>();
 		}
 
 		[BurstCompile]
@@ -35,6 +37,12 @@ namespace PotatoFinch.TmgDotsJam.Health {
 
 					SystemAPI.GetComponentRW<EnemySpawnAmount>(spawnPointEntities[i]).ValueRW.CurrentValue -= 1;
 				}
+			}
+			
+			var ownedGoldSingleton = SystemAPI.GetSingletonRW<OwnedGold>();
+
+			foreach (RefRO<GoldValue> goldValue in SystemAPI.Query<RefRO<GoldValue>>().WithAll<EnemyTag, CharacterDeadTag>()) {
+				ownedGoldSingleton.ValueRW.Value += goldValue.ValueRO.Value;
 			}
 
 			ecb.DestroyEntity(_deadCharactersQuery, EntityQueryCaptureMode.AtRecord);

@@ -8,6 +8,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 		[SerializeField] private float _movementSpeed;
 		[SerializeField] private float _maxHealth;
 		[SerializeField] private float _aggroRange;
+		[SerializeField] private int _goldValue;
 
 		private class EnemyAuthoringBaker : Baker<EnemyAuthoring> {
 			public override void Bake(EnemyAuthoring authoring) {
@@ -18,6 +19,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				AddComponent(enemyEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth});
 				AddComponent(enemyEntity, new MovementSpeed { Value = authoring._movementSpeed });
 				AddComponent(enemyEntity, new AggroRange { Value = authoring._aggroRange });
+				AddComponent(enemyEntity, new GoldValue{Value = authoring._goldValue});
 			}
 		}
 	}

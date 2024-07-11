@@ -153,3 +153,4 @@ MonoBehaviour:
   _movementSpeed: 1
   _maxHealth: 50
   _aggroRange: 6
+  _goldValue: 10

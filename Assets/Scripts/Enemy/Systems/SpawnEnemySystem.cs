@@ -15,6 +15,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 		private EntityQuery _enemySpawnPointQuery;
 
 		public void OnCreate(ref SystemState state) {
+			state.RequireForUpdate<PlayerTag>();
 			_random = new Random(1 + (uint)DateTime.UtcNow.Millisecond);
 			_enemyPositionQuery = state.GetEntityQuery(typeof(EnemyTag), typeof(LocalTransform));
 
@@ -27,6 +28,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 			var prefabContainer = SystemAPI.GetSingleton<PrefabContainer>();
 			var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 			using var enemyPositions = _enemyPositionQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
+			var playerPosition = SystemAPI.GetComponentRO<LocalTransform>(SystemAPI.GetSingletonEntity<PlayerTag>());
 
 			foreach ((RefRW<EnemySpawnCooldown> spawnCooldown, RefRO<EnemySpawnAmount> spawnAmount) in SystemAPI.Query<RefRW<EnemySpawnCooldown>, RefRO<EnemySpawnAmount>>()) {
 				if (spawnAmount.ValueRO.CurrentValue >= spawnAmount.ValueRO.MaxValue) {
@@ -60,6 +62,11 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 					bool foundError = false;
 					foreach (LocalTransform enemyPosition in enemyPositions) {
 						if (math.distance(enemyPosition.Position, spawnPosition) <= 2f) {
+							foundError = true;
+							break;
+						}
+						
+						if (math.distance(playerPosition.ValueRO.Position, spawnPosition) <= 5f) {
 							foundError = true;
 							break;
 						}
