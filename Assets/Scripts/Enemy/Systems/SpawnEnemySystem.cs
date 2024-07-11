@@ -12,6 +12,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 	public partial struct SpawnEnemySystem : ISystem {
 		private Random _random;
 		private EntityQuery _enemyPositionQuery;
+		private EntityQuery _enemySpawnPointQuery;
 
 		public void OnCreate(ref SystemState state) {
 			_random = new Random(1 + (uint)DateTime.UtcNow.Millisecond);
@@ -27,63 +28,53 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 			var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 			using var enemyPositions = _enemyPositionQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
 
-			foreach ((RefRO<EnemySpawnPointId> pointId, RefRO<EnemySpawnPointOrigin> pointOrigin, RefRO<EnemySpawnPointRange> pointRange, RefRW<EnemySpawnAmount> spawnAmount)
-			         in SystemAPI.Query<RefRO<EnemySpawnPointId>, RefRO<EnemySpawnPointOrigin>, RefRO<EnemySpawnPointRange>, RefRW<EnemySpawnAmount>>()) {
-				int amountToSpawn = spawnAmount.ValueRO.MaxValue - spawnAmount.ValueRO.CurrentValue;
-
-				if (amountToSpawn <= 0) {
+			foreach ((RefRW<EnemySpawnCooldown> spawnCooldown, RefRO<EnemySpawnAmount> spawnAmount) in SystemAPI.Query<RefRW<EnemySpawnCooldown>, RefRO<EnemySpawnAmount>>()) {
+				if (spawnAmount.ValueRO.CurrentValue >= spawnAmount.ValueRO.MaxValue) {
+					spawnCooldown.ValueRW.CurrentCooldown = spawnCooldown.ValueRO.Cooldown;
 					continue;
 				}
 
-				using NativeArray<Entity> spawnedEntities = new NativeArray<Entity>(amountToSpawn, Allocator.Temp);
-				using NativeArray<float3> spawnedEnemyPositions = new NativeArray<float3>(amountToSpawn, Allocator.Temp);
+				spawnCooldown.ValueRW.CurrentCooldown -= SystemAPI.Time.DeltaTime;
+			}
 
-				ecb.Instantiate(prefabContainer.SmallEnemyPrefab, spawnedEntities);
-
-				for (var index = 0; index < spawnedEntities.Length; index++) {
-					var spawnedEntity = spawnedEntities[index];
-					float3 spawnPosition;
-					float3 spawnDirection = new float3(1f, 0f, 0f);
-
-					bool isValidPosition = false;
-					int currentTries = 0;
-
-					var nativeArray = spawnedEnemyPositions;
-
-					do {
-						currentTries++;
-						spawnDirection = math.mul(quaternion.RotateY(_random.NextFloat(359f)), spawnDirection);
-						float spawnDistance = _random.NextFloat(pointRange.ValueRO.Value);
-						spawnPosition = pointOrigin.ValueRO.Value + spawnDirection * spawnDistance;
-
-						bool foundError = false;
-						foreach (LocalTransform enemyPosition in enemyPositions) {
-							if (math.distance(enemyPosition.Position, spawnPosition) <= 2f) {
-								foundError = true;
-								break;
-							}
-						}
-
-						if (!foundError) {
-							foreach (float3 spawnedEnemyPosition in nativeArray) {
-								if (math.distance(spawnedEnemyPosition, spawnPosition) <= 2f) {
-									foundError = true;
-									break;
-								}
-							}
-
-							if (!foundError) {
-								isValidPosition = true;
-							}
-						}
-					} while (!isValidPosition && currentTries < 10);
-
-					nativeArray[index] = spawnPosition;
-					ecb.SetComponent(spawnedEntity, new LocalTransform { Position = spawnPosition, Rotation = quaternion.identity, Scale = 1f });
-					ecb.SetComponent(spawnedEntity, pointId.ValueRO);
+			foreach ((RefRO<EnemySpawnPointId> pointId, RefRO<EnemySpawnPointOrigin> pointOrigin, RefRO<EnemySpawnPointRange> pointRange, RefRW<EnemySpawnAmount> spawnAmount, RefRW<EnemySpawnCooldown> spawnCooldown)
+			         in SystemAPI.Query<RefRO<EnemySpawnPointId>, RefRO<EnemySpawnPointOrigin>, RefRO<EnemySpawnPointRange>, RefRW<EnemySpawnAmount>, RefRW<EnemySpawnCooldown>>()) {
+				if (spawnCooldown.ValueRO.CurrentCooldown > 0f) {
+					continue;
 				}
 
-				spawnAmount.ValueRW.CurrentValue += amountToSpawn;
+				var spawnedEntity = ecb.Instantiate(prefabContainer.SmallEnemyPrefab);
+
+				float3 spawnPosition;
+				float3 spawnDirection = new float3(1f, 0f, 0f);
+
+				bool isValidPosition = false;
+				int currentTries = 0;
+
+				do {
+					currentTries++;
+					spawnDirection = math.mul(quaternion.RotateY(_random.NextFloat(359f)), spawnDirection);
+					float spawnDistance = _random.NextFloat(pointRange.ValueRO.Value);
+					spawnPosition = pointOrigin.ValueRO.Value + spawnDirection * spawnDistance;
+
+					bool foundError = false;
+					foreach (LocalTransform enemyPosition in enemyPositions) {
+						if (math.distance(enemyPosition.Position, spawnPosition) <= 2f) {
+							foundError = true;
+							break;
+						}
+					}
+
+					if (!foundError) {
+						isValidPosition = true;
+					}
+				} while (!isValidPosition && currentTries < 10);
+
+				ecb.SetComponent(spawnedEntity, new LocalTransform { Position = spawnPosition, Rotation = quaternion.identity, Scale = 1f });
+				ecb.SetComponent(spawnedEntity, pointId.ValueRO);
+
+				spawnAmount.ValueRW.CurrentValue += 1;
+				spawnCooldown.ValueRW.CurrentCooldown = spawnCooldown.ValueRO.Cooldown;
 			}
 		}
 

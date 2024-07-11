@@ -29,7 +29,6 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				ecb.AddComponent(enemyEntity, new TargetEnemy { Value = playerEntity });
 			}
 
-			// TODO: This will crash if player is in aggro range and hits an enemy in the same frame
 			foreach ((RefRO<CharacterHealth> enemyHealth, Entity enemyEntity) in SystemAPI.Query<RefRO<CharacterHealth>>().WithChangeFilter<CharacterHealth>().WithAll<EnemyTag>().WithNone<TargetEnemy>().WithEntityAccess()) {
 				if (enemyHealth.ValueRO.CurrentHealth >= enemyHealth.ValueRO.MaxHealth) {
 					continue;

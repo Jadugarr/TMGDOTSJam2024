@@ -8,7 +8,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 		private EntityArchetype _spawnPointArchetype;
 
 		public void OnCreate(ref SystemState state) {
-			_spawnPointArchetype = state.EntityManager.CreateArchetype(typeof(EnemySpawnAmount), typeof(EnemySpawnPointId), typeof(EnemySpawnPointRange), typeof(EnemySpawnPointOrigin));
+			_spawnPointArchetype = state.EntityManager.CreateArchetype(typeof(EnemySpawnAmount), typeof(EnemySpawnPointId), typeof(EnemySpawnPointRange), typeof(EnemySpawnPointOrigin), typeof(EnemySpawnCooldown));
 		}
 
 		public void OnStartRunning(ref SystemState state) {
@@ -22,7 +22,10 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointId { Value = i });
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointRange { Value = enemySpawnPointGameObject.Range });
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointOrigin { Value = enemySpawnPointGameObject.gameObject.transform.position });
+				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnCooldown { Cooldown = 10f, CurrentCooldown = 10f });
 			}
+
+			state.EntityManager.CreateEntity(typeof(SpawnAllEnemiesTag));
 		}
 
 		public void OnStopRunning(ref SystemState state) {
