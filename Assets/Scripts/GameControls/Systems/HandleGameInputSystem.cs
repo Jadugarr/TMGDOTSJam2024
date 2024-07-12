@@ -8,6 +8,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 
 		private Vector2 _currentMovementInputVector;
 		private bool _killRandomEnemy;
+		private bool _togglePause;
 
 		protected override void OnCreate() {
 			_gameInputActions = new GameInputActions();
@@ -17,6 +18,8 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			_gameInputActions.Gameplay.PlayerMovement.canceled += OnPlayerMovementCanceled;
 			
 			_gameInputActions.Gameplay.KillRandomEnemy.performed += OnKillRandomEnemyPerformed;
+			
+			_gameInputActions.Gameplay.PauseGame.performed += OnPauseGamePerformed;
 
 			EntityManager.CreateSingleton<CurrentGameInput>();
 		}
@@ -29,18 +32,23 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			var currentMovementInputVector = callbackContext.ReadValue<Vector2>();
 			_currentMovementInputVector = currentMovementInputVector;
 		}
+		private void OnKillRandomEnemyPerformed(InputAction.CallbackContext _) {
+			_killRandomEnemy = true;
+		}
+
+		private void OnPauseGamePerformed(InputAction.CallbackContext _) {
+			_togglePause = true;
+		}
 
 		protected override void OnUpdate() {
 			SystemAPI.SetSingleton(new CurrentGameInput {
 				CurrentMovementInputVector = _currentMovementInputVector,
 				KillRandomEnemy = _killRandomEnemy,
+				TogglePause = _togglePause,
 			});
 
 			_killRandomEnemy = false;
-		}
-
-		private void OnKillRandomEnemyPerformed(InputAction.CallbackContext _) {
-			_killRandomEnemy = true;
+			_togglePause = false;
 		}
 	}
 }

@@ -46,6 +46,15 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""178472dd-59e4-40c7-9f7f-8c2911b62683"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -125,6 +134,28 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""action"": ""KillRandomEnemy"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c27a173-149f-4c8f-b3ee-6791adb5279b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6405c6d-451d-4e8a-bb07-348c5f168adb"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -135,6 +166,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
             m_Gameplay_PlayerMovement = m_Gameplay.FindAction("PlayerMovement", throwIfNotFound: true);
             m_Gameplay_KillRandomEnemy = m_Gameplay.FindAction("KillRandomEnemy", throwIfNotFound: true);
+            m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -198,12 +230,14 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
         private readonly InputAction m_Gameplay_PlayerMovement;
         private readonly InputAction m_Gameplay_KillRandomEnemy;
+        private readonly InputAction m_Gameplay_PauseGame;
         public struct GameplayActions
         {
             private @GameInputActions m_Wrapper;
             public GameplayActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @PlayerMovement => m_Wrapper.m_Gameplay_PlayerMovement;
             public InputAction @KillRandomEnemy => m_Wrapper.m_Gameplay_KillRandomEnemy;
+            public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -219,6 +253,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @KillRandomEnemy.started += instance.OnKillRandomEnemy;
                 @KillRandomEnemy.performed += instance.OnKillRandomEnemy;
                 @KillRandomEnemy.canceled += instance.OnKillRandomEnemy;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
             }
 
             private void UnregisterCallbacks(IGameplayActions instance)
@@ -229,6 +266,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @KillRandomEnemy.started -= instance.OnKillRandomEnemy;
                 @KillRandomEnemy.performed -= instance.OnKillRandomEnemy;
                 @KillRandomEnemy.canceled -= instance.OnKillRandomEnemy;
+                @PauseGame.started -= instance.OnPauseGame;
+                @PauseGame.performed -= instance.OnPauseGame;
+                @PauseGame.canceled -= instance.OnPauseGame;
             }
 
             public void RemoveCallbacks(IGameplayActions instance)
@@ -250,6 +290,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         {
             void OnPlayerMovement(InputAction.CallbackContext context);
             void OnKillRandomEnemy(InputAction.CallbackContext context);
+            void OnPauseGame(InputAction.CallbackContext context);
         }
     }
 }
