@@ -1,4 +1,5 @@
-﻿using PotatoFinch.TmgDotsJam.Movement;
+﻿using PotatoFinch.TmgDotsJam.GameState;
+using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Entities;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace PotatoFinch.TmgDotsJam.Combat.Behaviours {
 				AddComponent<Velocity>(projectileEntity);
 				AddComponent<TargetEnemy>(projectileEntity);
 				AddComponent<ProjectileTag>(projectileEntity);
+				AddComponent<DestroyOnLoopResetTag>(projectileEntity);
 			}
 		}
 	}

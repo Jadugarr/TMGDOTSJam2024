@@ -1,4 +1,5 @@
-﻿using PotatoFinch.TmgDotsJam.Health;
+﻿using PotatoFinch.TmgDotsJam.GameState;
+using PotatoFinch.TmgDotsJam.Health;
 using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Entities;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				AddComponent<EnemyTag>(enemyEntity);
 				AddComponent<Velocity>(enemyEntity);
 				AddComponent<EnemySpawnPointId>(enemyEntity);
+				AddComponent<DestroyOnLoopResetTag>(enemyEntity);
 				AddComponent(enemyEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth});
 				AddComponent(enemyEntity, new MovementSpeed { Value = authoring._movementSpeed });
 				AddComponent(enemyEntity, new AggroRange { Value = authoring._aggroRange });
