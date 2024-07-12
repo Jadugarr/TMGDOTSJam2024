@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using PotatoFinch.TmgDotsJam.GameTime;
 using TMPro;
 using Unity.Entities;

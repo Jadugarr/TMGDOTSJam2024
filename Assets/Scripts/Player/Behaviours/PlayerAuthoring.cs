@@ -8,7 +8,6 @@ namespace PotatoFinch.TmgDotsJam {
 	public class PlayerAuthoring : MonoBehaviour {
 		[SerializeField] private float _movementSpeed;
 		[SerializeField] private float _maxHealth;
-		[SerializeField] private float _attackRange;
 
 		private class PlayerAuthoringBaker : Baker<PlayerAuthoring> {
 			public override void Bake(PlayerAuthoring authoring) {
@@ -17,7 +16,6 @@ namespace PotatoFinch.TmgDotsJam {
 				AddComponent<Velocity>(playerEntity);
 				AddComponent(playerEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth });
 				AddComponent(playerEntity, new MovementSpeed { Value = authoring._movementSpeed });
-				AddComponent(playerEntity, new AttackRange { Value = authoring._attackRange });
 				AddBuffer<AvailableAttack>(playerEntity);
 				AppendToBuffer(playerEntity, new AvailableAttack { AttackType = AttackType.Bullet, Cooldown = 0.2f, Range = 8f });
 			}
