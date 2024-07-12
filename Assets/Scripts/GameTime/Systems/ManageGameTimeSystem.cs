@@ -7,17 +7,17 @@ namespace PotatoFinch.TmgDotsJam.GameTime {
 		private EntityQuery _gamePausedQuery;
 		
 		public void OnCreate(ref SystemState state) {
-			var gameTimeEntity = state.EntityManager.CreateEntity(typeof(GameTime));
-			SystemAPI.SetComponent(gameTimeEntity, new GameTime { TotalTime = 30f, RemainingTime = 30f });
+			var gameTimeEntity = state.EntityManager.CreateEntity(typeof(GameTimeComponent));
+			SystemAPI.SetComponent(gameTimeEntity, new GameTimeComponent { TotalTime = 30f, RemainingTime = 30f });
 
 			_gamePausedQuery = state.GetEntityQuery(typeof(GamePausedTag));
 
-			state.RequireForUpdate<GameTime>();
+			state.RequireForUpdate<GameTimeComponent>();
 		}
 
 		[BurstCompile]
 		public void OnUpdate(ref SystemState state) {
-			var gameTimeComponent = SystemAPI.GetSingletonRW<GameTime>();
+			var gameTimeComponent = SystemAPI.GetSingletonRW<GameTimeComponent>();
 
 			if (gameTimeComponent.ValueRO.RemainingTime <= 0f) {
 				gameTimeComponent.ValueRW.RemainingTime = gameTimeComponent.ValueRO.TotalTime;

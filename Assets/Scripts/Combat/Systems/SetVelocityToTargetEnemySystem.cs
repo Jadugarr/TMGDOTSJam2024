@@ -1,4 +1,5 @@
-﻿using PotatoFinch.TmgDotsJam.Movement;
+﻿using PotatoFinch.TmgDotsJam.GameTime;
+using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -10,11 +11,14 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 	public partial struct SetVelocityToTargetEnemySystem : ISystem {
 		[BurstCompile]
 		public void OnCreate(ref SystemState state) {
+			state.RequireForUpdate<GameTimeComponent>();
 		}
 
 		[BurstCompile]
 		public void OnUpdate(ref SystemState state) {
-			state.Dependency = new SetVelocityJob { DeltaTime = SystemAPI.Time.DeltaTime, LocalTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true) }.ScheduleParallel(state.Dependency);
+			var gameTimeComponent = SystemAPI.GetSingleton<GameTimeComponent>();
+
+			state.Dependency = new SetVelocityJob { DeltaTime = gameTimeComponent.DeltaTime, LocalTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true) }.ScheduleParallel(state.Dependency);
 		}
 
 		[BurstCompile]

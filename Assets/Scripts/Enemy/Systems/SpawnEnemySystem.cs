@@ -1,5 +1,6 @@
 ﻿using System;
 using PotatoFinch.TmgDotsJam.Common;
+using PotatoFinch.TmgDotsJam.GameTime;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -21,6 +22,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 
 			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
 			state.RequireForUpdate<PrefabContainer>();
+			state.RequireForUpdate<GameTimeComponent>();
 		}
 
 		[BurstCompile]
@@ -29,6 +31,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 			var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 			using var enemyPositions = _enemyPositionQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
 			var playerPosition = SystemAPI.GetComponentRO<LocalTransform>(SystemAPI.GetSingletonEntity<PlayerTag>());
+			var gameTimeComponent = SystemAPI.GetSingleton<GameTimeComponent>();
 
 			foreach ((RefRW<EnemySpawnCooldown> spawnCooldown, RefRO<EnemySpawnAmount> spawnAmount) in SystemAPI.Query<RefRW<EnemySpawnCooldown>, RefRO<EnemySpawnAmount>>()) {
 				if (spawnAmount.ValueRO.CurrentValue >= spawnAmount.ValueRO.MaxValue) {
@@ -36,7 +39,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 					continue;
 				}
 
-				spawnCooldown.ValueRW.CurrentCooldown -= SystemAPI.Time.DeltaTime;
+				spawnCooldown.ValueRW.CurrentCooldown -= gameTimeComponent.DeltaTime;
 			}
 
 			foreach ((RefRO<EnemySpawnPointId> pointId, RefRO<EnemySpawnPointOrigin> pointOrigin, RefRO<EnemySpawnPointRange> pointRange, RefRW<EnemySpawnAmount> spawnAmount, RefRW<EnemySpawnCooldown> spawnCooldown)

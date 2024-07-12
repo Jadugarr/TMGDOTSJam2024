@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 
 namespace PotatoFinch.TmgDotsJam.GameTime {
-	public struct GameTime : IComponentData {
+	public struct GameTimeComponent : IComponentData {
 		public float TotalTime;
 		public float RemainingTime;
 		public float DeltaTime;

@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using PotatoFinch.TmgDotsJam.GameTime;
+using Unity.Burst;
 using Unity.Entities;
 
 namespace PotatoFinch.TmgDotsJam.Combat {
@@ -7,11 +8,12 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 		[BurstCompile]
 		public void OnCreate(ref SystemState state) {
 			state.RequireForUpdate<AvailableAttack>();
+			state.RequireForUpdate<GameTimeComponent>();
 		}
 
 		[BurstCompile]
 		public void OnUpdate(ref SystemState state) {
-			var deltaTime = SystemAPI.Time.DeltaTime;
+			var deltaTime = SystemAPI.GetSingleton<GameTimeComponent>().DeltaTime;
 			var availableAttacks = SystemAPI.GetSingletonBuffer<AvailableAttack>();
 
 			for (var i = 0; i < availableAttacks.Length; i++) {

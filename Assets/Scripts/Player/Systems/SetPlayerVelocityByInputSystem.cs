@@ -1,5 +1,6 @@
 ﻿using PotatoFinch.TmgDotsJam.GameCamera;
 using PotatoFinch.TmgDotsJam.GameControls;
+using PotatoFinch.TmgDotsJam.GameTime;
 using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Burst;
 using Unity.Entities;
@@ -13,6 +14,7 @@ namespace PotatoFinch.TmgDotsJam {
 			state.RequireForUpdate<PlayerTag>();
 			state.RequireForUpdate<CurrentGameInput>();
 			state.RequireForUpdate<GameCameraComponent>();
+			state.RequireForUpdate<GameTimeComponent>();
 		}
 
 		public void OnUpdate(ref SystemState state) {
@@ -21,6 +23,7 @@ namespace PotatoFinch.TmgDotsJam {
 			var playerVelocity = SystemAPI.GetComponentRW<Velocity>(playerEntity);
 			var movementSpeed = SystemAPI.GetComponentRO<MovementSpeed>(playerEntity);
 			var gameCameraComponent = SystemAPI.ManagedAPI.GetSingleton<GameCameraComponent>();
+			var gameTimeComponent = SystemAPI.GetSingleton<GameTimeComponent>();
 
 			if (math.all(currentGameInput.CurrentMovementInputVector == float2.zero)) {
 				playerVelocity.ValueRW.Value = 0f;
@@ -30,7 +33,7 @@ namespace PotatoFinch.TmgDotsJam {
 			var movementVector = new float3(currentGameInput.CurrentMovementInputVector.x, 0f, currentGameInput.CurrentMovementInputVector.y);
 			movementVector = gameCameraComponent.Value.transform.rotation * movementVector;
 			movementVector.y = 0f;
-			playerVelocity.ValueRW.Value = movementVector * movementSpeed.ValueRO.Value * SystemAPI.Time.DeltaTime;
+			playerVelocity.ValueRW.Value = movementVector * movementSpeed.ValueRO.Value * gameTimeComponent.DeltaTime;
 		}
 
 		[BurstCompile]

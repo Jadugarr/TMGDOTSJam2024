@@ -1,4 +1,5 @@
 ﻿using PotatoFinch.TmgDotsJam.GameControls;
+using PotatoFinch.TmgDotsJam.GameTime;
 using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Burst;
 using Unity.Entities;
@@ -14,10 +15,12 @@ namespace PotatoFinch.TmgDotsJam.GameCamera {
 			state.RequireForUpdate<CameraFollowTargetTag>();
 			state.RequireForUpdate<CurrentGameInput>();
 			state.RequireForUpdate<GameCameraComponent>();
+			state.RequireForUpdate<GameTimeComponent>();
 		}
 
 		public void OnUpdate(ref SystemState state) {
 			var currentInput = SystemAPI.GetSingleton<CurrentGameInput>();
+			var gameTimeComponent = SystemAPI.GetSingleton<GameTimeComponent>();
 
 			if (math.all(currentInput.CurrentMovementInputVector == float2.zero)) {
 				return;
@@ -31,7 +34,7 @@ namespace PotatoFinch.TmgDotsJam.GameCamera {
 			var movementVector = new float3(currentInput.CurrentMovementInputVector.x, 0f, currentInput.CurrentMovementInputVector.y);
 			movementVector = cameraComponent.Value.transform.rotation * movementVector;
 			movementVector.y = 0f;
-			localTransform.ValueRW.Position += movementVector * movementSpeed.ValueRO.Value * SystemAPI.Time.DeltaTime;
+			localTransform.ValueRW.Position += movementVector * movementSpeed.ValueRO.Value * gameTimeComponent.DeltaTime;
 		}
 
 		[BurstCompile]
