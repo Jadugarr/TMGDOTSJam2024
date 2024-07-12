@@ -83,7 +83,6 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				ecb.SetComponent(spawnedEntity, new LocalTransform { Position = spawnPosition, Rotation = quaternion.identity, Scale = 1f });
 				ecb.SetComponent(spawnedEntity, pointId.ValueRO);
 
-				spawnAmount.ValueRW.CurrentValue += 1;
 				spawnCooldown.ValueRW.CurrentCooldown = spawnCooldown.ValueRO.Cooldown;
 			}
 		}
