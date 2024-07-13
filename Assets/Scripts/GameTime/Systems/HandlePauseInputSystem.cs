@@ -1,6 +1,8 @@
 ﻿using PotatoFinch.TmgDotsJam.GameControls;
+using PotatoFinch.TmgDotsJam.UI;
 using Unity.Burst;
 using Unity.Entities;
+using UnityEngine;
 
 namespace PotatoFinch.TmgDotsJam.GameTime {
 	[UpdateInGroup(typeof(GameTimeSystemGroup))]
@@ -21,6 +23,7 @@ namespace PotatoFinch.TmgDotsJam.GameTime {
 			}
 
 			if (_gamePausedQuery.CalculateEntityCount() > 0) {
+				GameObject.FindGameObjectWithTag("ShopDialog").GetComponent<ShopDialogHandler>().ActivateShopDialog(false);
 				state.EntityManager.DestroyEntity(_gamePausedQuery);
 				return;
 			}

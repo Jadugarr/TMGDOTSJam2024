@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using PotatoFinch.TmgDotsJam.GameTime;
 using PotatoFinch.TmgDotsJam.Shop;
 using TMPro;
 using Unity.Entities;
@@ -16,10 +17,12 @@ namespace PotatoFinch.TmgDotsJam.UI {
 		[SerializeField, Header("Containers")] private GameObject _costContainer;
 
 		private EntityQuery _boughtUpgradesQuery;
+		private EntityQuery _gamePausedQuery;
 		private EntityManager _entityManager;
 
 		private void Awake() {
 			_entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+			_gamePausedQuery = _entityManager.CreateEntityQuery(typeof(GamePausedTag));
 			_boughtUpgradesQuery = _entityManager.CreateEntityQuery(typeof(BoughtUpgrade));
 
 			foreach (UpgradeButton upgradeButton in _upgradeButtons) {
@@ -28,8 +31,21 @@ namespace PotatoFinch.TmgDotsJam.UI {
 				upgradeButton.ButtonClicked += OnButtonClicked;
 			}
 
+			_closeButton.onClick.AddListener(OnCloseButtonClicked);
+
 			_descriptionText.text = string.Empty;
 			_costContainer.SetActive(false);
+		}
+
+		private void OnDestroy() {
+			_closeButton.onClick.RemoveListener(OnCloseButtonClicked);
+		}
+
+		private void OnCloseButtonClicked() {
+			gameObject.SetActive(false);
+			if (_gamePausedQuery.CalculateEntityCount() > 0) {
+				_entityManager.DestroyEntity(_gamePausedQuery);
+			}
 		}
 
 		private void OnButtonClicked(UpgradeShopInfoDefinition upgradeShopInfoDefinition) {

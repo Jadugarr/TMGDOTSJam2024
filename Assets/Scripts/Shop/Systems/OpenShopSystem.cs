@@ -1,4 +1,6 @@
 ﻿using PotatoFinch.TmgDotsJam.GameControls;
+using PotatoFinch.TmgDotsJam.GameTime;
+using PotatoFinch.TmgDotsJam.UI;
 using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
@@ -14,9 +16,9 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 			if (!SystemAPI.GetSingleton<CurrentGameInput>().OpenShop) {
 				return;
 			}
-			
-			GameObject.FindWithTag("ShopDialog").SetActive(true);
-			
+
+			GameObject.FindGameObjectWithTag("ShopDialog").GetComponent<ShopDialogHandler>().ActivateShopDialog(true);
+			state.EntityManager.CreateEntity(typeof(GamePausedTag));
 		}
 
 		[BurstCompile]
