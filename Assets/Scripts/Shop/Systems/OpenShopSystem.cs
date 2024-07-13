@@ -7,13 +7,19 @@ using UnityEngine;
 
 namespace PotatoFinch.TmgDotsJam.Shop {
 	public partial struct OpenShopSystem : ISystem {
-		[BurstCompile]
+		private EntityQuery _shopActiveQuery;
+		
 		public void OnCreate(ref SystemState state) {
+			_shopActiveQuery = state.GetEntityQuery(typeof(ShopActiveTag));
 			state.RequireForUpdate<CurrentGameInput>();
 		}
 
 		public void OnUpdate(ref SystemState state) {
 			if (!SystemAPI.GetSingleton<CurrentGameInput>().OpenShop) {
+				return;
+			}
+
+			if (_shopActiveQuery.CalculateEntityCount() <= 0) {
 				return;
 			}
 
