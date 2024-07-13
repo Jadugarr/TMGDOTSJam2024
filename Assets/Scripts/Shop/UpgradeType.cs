@@ -3,5 +3,6 @@
 		None = 0,
 		MovementSpeed = 10,
 		TimerReset = 20,
+		EnemySpawnCooldown = 30,
 	}
 }

@@ -13,6 +13,9 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 
 		public void OnStartRunning(ref SystemState state) {
 			var enemySpawnPointGameObjects = Object.FindObjectsByType<EnemySpawnPointBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+			var spawnPointStatEntity = state.EntityManager.CreateEntity(typeof(OriginalEnemySpawnPointStats));
+			var originalEnemySpawnPointStats = new OriginalEnemySpawnPointStats { SpawnCooldown = 10f };
+			state.EntityManager.SetComponentData(spawnPointStatEntity, originalEnemySpawnPointStats);
 
 			for (var i = 0; i < enemySpawnPointGameObjects.Length; i++) {
 				var enemySpawnPointGameObject = enemySpawnPointGameObjects[i];
@@ -22,7 +25,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointId { Value = i });
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointRange { Value = enemySpawnPointGameObject.Range });
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointOrigin { Value = enemySpawnPointGameObject.gameObject.transform.position });
-				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnCooldown { Cooldown = 10f, CurrentCooldown = 10f });
+				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnCooldown { Cooldown = originalEnemySpawnPointStats.SpawnCooldown, CurrentCooldown = originalEnemySpawnPointStats.SpawnCooldown });
 			}
 
 			state.EntityManager.CreateEntity(typeof(SpawnAllEnemiesTag));

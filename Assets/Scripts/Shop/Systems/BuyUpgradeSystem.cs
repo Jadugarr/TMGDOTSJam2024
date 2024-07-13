@@ -1,4 +1,5 @@
-﻿using PotatoFinch.TmgDotsJam.GameTime;
+﻿using PotatoFinch.TmgDotsJam.Enemy;
+using PotatoFinch.TmgDotsJam.GameTime;
 using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Burst;
 using Unity.Entities;
@@ -71,6 +72,11 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 						break;
 					case UpgradeType.TimerReset:
 						gameTimeComponent.ValueRW.RemainingTime = gameTimeComponent.ValueRO.TotalTime;
+						break;
+					case UpgradeType.EnemySpawnCooldown:
+						foreach (RefRW<EnemySpawnCooldown> enemySpawnCooldown in SystemAPI.Query<RefRW<EnemySpawnCooldown>>()) {
+							enemySpawnCooldown.ValueRW.Cooldown -= 1f;
+						}
 						break;
 					default:
 						Debug.LogError($"Undefined handling for upgrade type {buyUpgrade.ValueRO.Value}!");

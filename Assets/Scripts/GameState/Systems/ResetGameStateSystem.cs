@@ -14,6 +14,7 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 		private EntityArchetype _forceRespawnEnemiesArchetype;
 
 		public void OnCreate(ref SystemState state) {
+			state.RequireForUpdate<OriginalEnemySpawnPointStats>();
 			_destroyOnResetQuery = state.GetEntityQuery(typeof(DestroyOnLoopResetTag));
 			_forceRespawnEnemiesArchetype = state.EntityManager.CreateArchetype(typeof(SpawnAllEnemiesTag));
 			
@@ -53,6 +54,14 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 			
 			// Reset bought upgrades
 			SystemAPI.GetSingletonBuffer<BoughtUpgrade>().Clear();
+			
+			// Reset enemy spawn cooldowns
+			var originalEnemySpawnPointStats = SystemAPI.GetSingleton<OriginalEnemySpawnPointStats>();
+
+			foreach (RefRW<EnemySpawnCooldown> enemySpawnCooldown in SystemAPI.Query<RefRW<EnemySpawnCooldown>>()) {
+				enemySpawnCooldown.ValueRW.CurrentCooldown = originalEnemySpawnPointStats.SpawnCooldown;
+				enemySpawnCooldown.ValueRW.Cooldown = originalEnemySpawnPointStats.SpawnCooldown;
+			}
 		}
 
 		[BurstCompile]

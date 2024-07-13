@@ -214,6 +214,11 @@ MonoBehaviour:
     Description: Reset the clock!
     Cost: 2
     MaxLevel: 99
+  - UpgradeType: 30
+    Name: Enemy Spawn Cooldown
+    Description: Make new enemies appear faster! 1 second faster per Level.
+    Cost: 1
+    MaxLevel: 9
 --- !u!4 &629451574
 Transform:
   m_ObjectHideFlags: 0
