@@ -9,5 +9,9 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 		public FixedString64Bytes Description;
 		public int Cost;
 		public int MaxLevel;
+
+		public int GetCostByLevel(int level) {
+			return Cost * level;
+		}
 	}
 }

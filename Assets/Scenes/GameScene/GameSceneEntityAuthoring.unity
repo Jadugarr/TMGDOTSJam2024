@@ -207,7 +207,7 @@ MonoBehaviour:
   - UpgradeType: 10
     Name: Movement Speed
     Description: Increases movement speed by 10% per level.
-    Cost: 25
+    Cost: 3
     MaxLevel: 5
 --- !u!4 &629451574
 Transform:

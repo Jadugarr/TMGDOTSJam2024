@@ -55,6 +55,15 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuyUpgradeTest"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2792e79-eec6-4ff4-aad8-dbe9c7ba748a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -156,6 +165,17 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""action"": ""PauseGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c71371e-7e9b-493b-9a40-38e39ea15e66"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuyUpgradeTest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -167,6 +187,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             m_Gameplay_PlayerMovement = m_Gameplay.FindAction("PlayerMovement", throwIfNotFound: true);
             m_Gameplay_KillRandomEnemy = m_Gameplay.FindAction("KillRandomEnemy", throwIfNotFound: true);
             m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
+            m_Gameplay_BuyUpgradeTest = m_Gameplay.FindAction("BuyUpgradeTest", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -231,6 +252,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         private readonly InputAction m_Gameplay_PlayerMovement;
         private readonly InputAction m_Gameplay_KillRandomEnemy;
         private readonly InputAction m_Gameplay_PauseGame;
+        private readonly InputAction m_Gameplay_BuyUpgradeTest;
         public struct GameplayActions
         {
             private @GameInputActions m_Wrapper;
@@ -238,6 +260,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             public InputAction @PlayerMovement => m_Wrapper.m_Gameplay_PlayerMovement;
             public InputAction @KillRandomEnemy => m_Wrapper.m_Gameplay_KillRandomEnemy;
             public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
+            public InputAction @BuyUpgradeTest => m_Wrapper.m_Gameplay_BuyUpgradeTest;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -256,6 +279,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
+                @BuyUpgradeTest.started += instance.OnBuyUpgradeTest;
+                @BuyUpgradeTest.performed += instance.OnBuyUpgradeTest;
+                @BuyUpgradeTest.canceled += instance.OnBuyUpgradeTest;
             }
 
             private void UnregisterCallbacks(IGameplayActions instance)
@@ -269,6 +295,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @PauseGame.started -= instance.OnPauseGame;
                 @PauseGame.performed -= instance.OnPauseGame;
                 @PauseGame.canceled -= instance.OnPauseGame;
+                @BuyUpgradeTest.started -= instance.OnBuyUpgradeTest;
+                @BuyUpgradeTest.performed -= instance.OnBuyUpgradeTest;
+                @BuyUpgradeTest.canceled -= instance.OnBuyUpgradeTest;
             }
 
             public void RemoveCallbacks(IGameplayActions instance)
@@ -291,6 +320,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             void OnPlayerMovement(InputAction.CallbackContext context);
             void OnKillRandomEnemy(InputAction.CallbackContext context);
             void OnPauseGame(InputAction.CallbackContext context);
+            void OnBuyUpgradeTest(InputAction.CallbackContext context);
         }
     }
 }
