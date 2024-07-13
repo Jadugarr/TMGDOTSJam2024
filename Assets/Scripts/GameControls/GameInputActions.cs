@@ -82,6 +82,15 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuyUpgradeTest4"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb6b61fb-a029-4052-994d-fe7f644713af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -216,6 +225,17 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""action"": ""BuyUpgradeTest3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""262317d3-a602-42f2-933f-7f05f1ed6191"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuyUpgradeTest4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -230,6 +250,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             m_Gameplay_BuyUpgradeTest = m_Gameplay.FindAction("BuyUpgradeTest", throwIfNotFound: true);
             m_Gameplay_BuyUpgradeTest2 = m_Gameplay.FindAction("BuyUpgradeTest2", throwIfNotFound: true);
             m_Gameplay_BuyUpgradeTest3 = m_Gameplay.FindAction("BuyUpgradeTest3", throwIfNotFound: true);
+            m_Gameplay_BuyUpgradeTest4 = m_Gameplay.FindAction("BuyUpgradeTest4", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -297,6 +318,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         private readonly InputAction m_Gameplay_BuyUpgradeTest;
         private readonly InputAction m_Gameplay_BuyUpgradeTest2;
         private readonly InputAction m_Gameplay_BuyUpgradeTest3;
+        private readonly InputAction m_Gameplay_BuyUpgradeTest4;
         public struct GameplayActions
         {
             private @GameInputActions m_Wrapper;
@@ -307,6 +329,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             public InputAction @BuyUpgradeTest => m_Wrapper.m_Gameplay_BuyUpgradeTest;
             public InputAction @BuyUpgradeTest2 => m_Wrapper.m_Gameplay_BuyUpgradeTest2;
             public InputAction @BuyUpgradeTest3 => m_Wrapper.m_Gameplay_BuyUpgradeTest3;
+            public InputAction @BuyUpgradeTest4 => m_Wrapper.m_Gameplay_BuyUpgradeTest4;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -334,6 +357,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @BuyUpgradeTest3.started += instance.OnBuyUpgradeTest3;
                 @BuyUpgradeTest3.performed += instance.OnBuyUpgradeTest3;
                 @BuyUpgradeTest3.canceled += instance.OnBuyUpgradeTest3;
+                @BuyUpgradeTest4.started += instance.OnBuyUpgradeTest4;
+                @BuyUpgradeTest4.performed += instance.OnBuyUpgradeTest4;
+                @BuyUpgradeTest4.canceled += instance.OnBuyUpgradeTest4;
             }
 
             private void UnregisterCallbacks(IGameplayActions instance)
@@ -356,6 +382,9 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @BuyUpgradeTest3.started -= instance.OnBuyUpgradeTest3;
                 @BuyUpgradeTest3.performed -= instance.OnBuyUpgradeTest3;
                 @BuyUpgradeTest3.canceled -= instance.OnBuyUpgradeTest3;
+                @BuyUpgradeTest4.started -= instance.OnBuyUpgradeTest4;
+                @BuyUpgradeTest4.performed -= instance.OnBuyUpgradeTest4;
+                @BuyUpgradeTest4.canceled -= instance.OnBuyUpgradeTest4;
             }
 
             public void RemoveCallbacks(IGameplayActions instance)
@@ -381,6 +410,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             void OnBuyUpgradeTest(InputAction.CallbackContext context);
             void OnBuyUpgradeTest2(InputAction.CallbackContext context);
             void OnBuyUpgradeTest3(InputAction.CallbackContext context);
+            void OnBuyUpgradeTest4(InputAction.CallbackContext context);
         }
     }
 }

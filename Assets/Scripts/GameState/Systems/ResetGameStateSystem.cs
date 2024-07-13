@@ -1,4 +1,5 @@
-﻿using PotatoFinch.TmgDotsJam.Enemy;
+﻿using PotatoFinch.TmgDotsJam.Combat;
+using PotatoFinch.TmgDotsJam.Enemy;
 using PotatoFinch.TmgDotsJam.GameTime;
 using PotatoFinch.TmgDotsJam.Health;
 using PotatoFinch.TmgDotsJam.Movement;
@@ -61,6 +62,11 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 			foreach (RefRW<EnemySpawnCooldown> enemySpawnCooldown in SystemAPI.Query<RefRW<EnemySpawnCooldown>>()) {
 				enemySpawnCooldown.ValueRW.CurrentCooldown = originalEnemySpawnPointStats.SpawnCooldown;
 				enemySpawnCooldown.ValueRW.Cooldown = originalEnemySpawnPointStats.SpawnCooldown;
+			}
+			
+			// Reset damage values
+			foreach (RefRW<DamageValue> damageValue in SystemAPI.Query<RefRW<DamageValue>>().WithOptions(EntityQueryOptions.IncludePrefab)) {
+				damageValue.ValueRW.Value = damageValue.ValueRO.OriginalValue;
 			}
 		}
 

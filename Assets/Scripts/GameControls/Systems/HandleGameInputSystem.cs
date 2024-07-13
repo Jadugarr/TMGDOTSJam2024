@@ -25,6 +25,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			_gameInputActions.Gameplay.BuyUpgradeTest.performed += OnBuyUpgradeTestPerformed;
 			_gameInputActions.Gameplay.BuyUpgradeTest2.performed += OnBuyUpgradeTest2Performed;
 			_gameInputActions.Gameplay.BuyUpgradeTest3.performed += OnBuyUpgradeTest3Performed;
+			_gameInputActions.Gameplay.BuyUpgradeTest4.performed += OnBuyUpgradeTest4Performed;
 
 			EntityManager.CreateSingleton<CurrentGameInput>();
 		}
@@ -42,6 +43,11 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		private void OnBuyUpgradeTest3Performed(InputAction.CallbackContext _) {
 			var entity = EntityManager.CreateEntity(typeof(BuyUpgrade));
 			EntityManager.SetComponentData(entity, new BuyUpgrade { Value = UpgradeType.EnemySpawnCooldown });
+		}
+
+		private void OnBuyUpgradeTest4Performed(InputAction.CallbackContext _) {
+			var entity = EntityManager.CreateEntity(typeof(BuyUpgrade));
+			EntityManager.SetComponentData(entity, new BuyUpgrade { Value = UpgradeType.Damage });
 		}
 
 		private void OnPlayerMovementCanceled(InputAction.CallbackContext _) {

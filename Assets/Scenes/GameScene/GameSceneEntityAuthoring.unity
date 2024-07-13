@@ -219,6 +219,11 @@ MonoBehaviour:
     Description: Make new enemies appear faster! 1 second faster per Level.
     Cost: 1
     MaxLevel: 9
+  - UpgradeType: 40
+    Name: Damage
+    Description: Increases projectile damage by 20% per level.
+    Cost: 1
+    MaxLevel: 10
 --- !u!4 &629451574
 Transform:
   m_ObjectHideFlags: 0

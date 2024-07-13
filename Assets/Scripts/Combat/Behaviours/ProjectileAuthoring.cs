@@ -11,7 +11,7 @@ namespace PotatoFinch.TmgDotsJam.Combat.Behaviours {
 		private class ProjectileAuthoringBaker : Baker<ProjectileAuthoring> {
 			public override void Bake(ProjectileAuthoring authoring) {
 				var projectileEntity = GetEntity(authoring, TransformUsageFlags.Dynamic);
-				AddComponent(projectileEntity, new DamageValue { Value = authoring._damageValue });
+				AddComponent(projectileEntity, new DamageValue { Value = authoring._damageValue, OriginalValue = authoring._damageValue });
 				AddComponent(projectileEntity, new MovementSpeed { Value = authoring._movementSpeed });
 				AddComponent<Velocity>(projectileEntity);
 				AddComponent<TargetEnemy>(projectileEntity);

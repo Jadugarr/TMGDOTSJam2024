@@ -4,5 +4,6 @@
 		MovementSpeed = 10,
 		TimerReset = 20,
 		EnemySpawnCooldown = 30,
+		Damage = 40,
 	}
 }

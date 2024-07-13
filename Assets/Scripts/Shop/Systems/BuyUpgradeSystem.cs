@@ -1,4 +1,5 @@
-﻿using PotatoFinch.TmgDotsJam.Enemy;
+﻿using PotatoFinch.TmgDotsJam.Combat;
+using PotatoFinch.TmgDotsJam.Enemy;
 using PotatoFinch.TmgDotsJam.GameTime;
 using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Burst;
@@ -76,6 +77,11 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 					case UpgradeType.EnemySpawnCooldown:
 						foreach (RefRW<EnemySpawnCooldown> enemySpawnCooldown in SystemAPI.Query<RefRW<EnemySpawnCooldown>>()) {
 							enemySpawnCooldown.ValueRW.Cooldown -= 1f;
+						}
+						break;
+					case UpgradeType.Damage:
+						foreach (RefRW<DamageValue> damageValue in SystemAPI.Query<RefRW<DamageValue>>().WithOptions(EntityQueryOptions.IncludePrefab)) {
+							damageValue.ValueRW.Value = damageValue.ValueRO.OriginalValue * (1f + 0.2f * boughtUpgrade.CurrentLevel);
 						}
 						break;
 					default:
