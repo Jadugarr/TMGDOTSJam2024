@@ -1976,6 +1976,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 311864477988396966}
   m_SourcePrefab: {fileID: 100100000, guid: 3f494f7e45c075f4886226cd9c1c9e1b, type: 3}
+--- !u!114 &7185491269112371977 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6139321124927603657, guid: 3f494f7e45c075f4886226cd9c1c9e1b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3928473906414983360}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7185491270282198683 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6139321125921269339, guid: 3f494f7e45c075f4886226cd9c1c9e1b,
@@ -2015,7 +2027,7 @@ MonoBehaviour:
   _button: {fileID: 7185491270282198683}
   _upgradeShopInfoDefinition: {fileID: 11400000, guid: 6e87b72d7c45e024cae88d3823855694,
     type: 2}
-  _upgradeNameText: {fileID: 3377859673149493915}
+  _upgradeNameText: {fileID: 7185491269112371977}
 --- !u!1001 &8922705568979603794
 PrefabInstance:
   m_ObjectHideFlags: 0
