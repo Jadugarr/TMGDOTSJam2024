@@ -17,4 +17,4 @@ MonoBehaviour:
     Name: Movement Speed
     Description: Increases movement speed by 10% per level.
     Cost: 1
-    MaxLevel: 5
+    MaxLevel: 20

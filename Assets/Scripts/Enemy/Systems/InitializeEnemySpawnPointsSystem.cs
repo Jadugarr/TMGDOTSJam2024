@@ -21,7 +21,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				var enemySpawnPointGameObject = enemySpawnPointGameObjects[i];
 
 				var spawnPointEntity = state.EntityManager.CreateEntity(_spawnPointArchetype);
-				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnAmount { MaxValue = 10 });
+				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnAmount { MaxValue = 300 });
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointId { Value = i });
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointRange { Value = enemySpawnPointGameObject.Range });
 				SystemAPI.SetComponent(spawnPointEntity, new EnemySpawnPointOrigin { Value = enemySpawnPointGameObject.gameObject.transform.position });
