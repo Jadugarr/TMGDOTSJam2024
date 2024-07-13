@@ -19,7 +19,7 @@ namespace PotatoFinch.TmgDotsJam.UI {
 				return;
 			}
 
-			_ownedGoldDisplay.text = $"Owned Gold: {ownedGoldComponent.Value.ToString(CultureInfo.InvariantCulture)}";
+			_ownedGoldDisplay.text = ownedGoldComponent.Value.ToString(CultureInfo.InvariantCulture);
 		}
 	}
 }
