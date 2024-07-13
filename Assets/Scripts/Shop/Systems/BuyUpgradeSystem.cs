@@ -1,4 +1,5 @@
-﻿using PotatoFinch.TmgDotsJam.Movement;
+﻿using PotatoFinch.TmgDotsJam.GameTime;
+using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 			state.RequireForUpdate<BuyUpgrade>();
 			state.RequireForUpdate<BoughtUpgrade>();
 			state.RequireForUpdate<UpgradeShipInfoBlobAssetReference>();
+			state.RequireForUpdate<GameTimeComponent>();
 			state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
 		}
 
@@ -28,6 +30,7 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 			var originalPlayerStats = SystemAPI.GetSingleton<OriginalPlayerStats>();
 			var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 			var ownedGold = SystemAPI.GetSingletonRW<OwnedGold>();
+			var gameTimeComponent = SystemAPI.GetSingletonRW<GameTimeComponent>();
 
 			foreach (RefRO<BuyUpgrade> buyUpgrade in SystemAPI.Query<RefRO<BuyUpgrade>>()) {
 				if (!upgradeShipInfoBlobAssetReference.TryGetUpgradeShopInfoByUpgradeType(buyUpgrade.ValueRO.Value, out UpgradeShopInfo upgradeShopInfo)) {
@@ -42,8 +45,6 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 					if (boughtUpgrade.CurrentLevel >= upgradeShopInfo.MaxLevel) {
 						continue;
 					}
-				}
-				else {
 				}
 
 				int levelToBuy = boughtUpgrade.CurrentLevel + 1;
@@ -67,6 +68,9 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 				switch (buyUpgrade.ValueRO.Value) {
 					case UpgradeType.MovementSpeed:
 						SystemAPI.SetComponent(playerEntity, new MovementSpeed { Value = originalPlayerStats.MovementSpeed * (1f + 0.1f * boughtUpgrade.CurrentLevel) });
+						break;
+					case UpgradeType.TimerReset:
+						gameTimeComponent.ValueRW.RemainingTime = gameTimeComponent.ValueRO.TotalTime;
 						break;
 					default:
 						Debug.LogError($"Undefined handling for upgrade type {buyUpgrade.ValueRO.Value}!");

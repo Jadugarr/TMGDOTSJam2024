@@ -23,6 +23,7 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			_gameInputActions.Gameplay.PauseGame.performed += OnPauseGamePerformed;
 
 			_gameInputActions.Gameplay.BuyUpgradeTest.performed += OnBuyUpgradeTestPerformed;
+			_gameInputActions.Gameplay.BuyUpgradeTest2.performed += OnBuyUpgradeTest2Performed;
 
 			EntityManager.CreateSingleton<CurrentGameInput>();
 		}
@@ -30,6 +31,11 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		private void OnBuyUpgradeTestPerformed(InputAction.CallbackContext _) {
 			var entity = EntityManager.CreateEntity(typeof(BuyUpgrade));
 			EntityManager.SetComponentData(entity, new BuyUpgrade { Value = UpgradeType.MovementSpeed });
+		}
+
+		private void OnBuyUpgradeTest2Performed(InputAction.CallbackContext _) {
+			var entity = EntityManager.CreateEntity(typeof(BuyUpgrade));
+			EntityManager.SetComponentData(entity, new BuyUpgrade { Value = UpgradeType.TimerReset });
 		}
 
 		private void OnPlayerMovementCanceled(InputAction.CallbackContext _) {

@@ -209,6 +209,11 @@ MonoBehaviour:
     Description: Increases movement speed by 10% per level.
     Cost: 3
     MaxLevel: 5
+  - UpgradeType: 20
+    Name: Reset Timer
+    Description: Reset the clock!
+    Cost: 2
+    MaxLevel: 99
 --- !u!4 &629451574
 Transform:
   m_ObjectHideFlags: 0

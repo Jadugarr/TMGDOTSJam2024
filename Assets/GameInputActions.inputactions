@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BuyUpgradeTest2",
+                    "type": "Button",
+                    "id": "e77732b3-21f2-4fa4-aceb-1546457b7f94",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -150,6 +159,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "BuyUpgradeTest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93514e63-62e6-4b9b-b1e2-326277e580ba",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuyUpgradeTest2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
