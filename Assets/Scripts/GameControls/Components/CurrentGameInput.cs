@@ -6,5 +6,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		public float2 CurrentMovementInputVector;
 		public bool KillRandomEnemy;
 		public bool TogglePause;
+		public bool OpenShop;
 	}
 }

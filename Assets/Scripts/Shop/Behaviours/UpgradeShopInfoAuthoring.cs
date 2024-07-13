@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PotatoFinch.TmgDotsJam.Shop {
 	public class UpgradeShopInfoAuthoring : MonoBehaviour {
-		[SerializeField] private UpgradeShopInfoEditorSetup[] _upgradeShopInfos;
+		[SerializeField] private UpgradeShopInfoDefinition[] _upgradeShopInfos;
 
 		private class UpgradeShopInfoAuthoringBaker : Baker<UpgradeShopInfoAuthoring> {
 			public override void Bake(UpgradeShopInfoAuthoring authoring) {
@@ -18,11 +18,11 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 					var upgradeShopInfoEditorSetup = authoring._upgradeShopInfos[i];
 
 					shopInfoArray[i] = new UpgradeShopInfo {
-						Description = upgradeShopInfoEditorSetup.Description,
-						Name = upgradeShopInfoEditorSetup.Name,
-						Cost = upgradeShopInfoEditorSetup.Cost,
-						MaxLevel = upgradeShopInfoEditorSetup.MaxLevel,
-						UpgradeType = upgradeShopInfoEditorSetup.UpgradeType
+						Description = upgradeShopInfoEditorSetup.UpgradeShopInfo.Description,
+						Name = upgradeShopInfoEditorSetup.UpgradeShopInfo.Name,
+						Cost = upgradeShopInfoEditorSetup.UpgradeShopInfo.Cost,
+						MaxLevel = upgradeShopInfoEditorSetup.UpgradeShopInfo.MaxLevel,
+						UpgradeType = upgradeShopInfoEditorSetup.UpgradeShopInfo.UpgradeType
 					};
 				}
 

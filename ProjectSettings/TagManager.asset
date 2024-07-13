@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CameraFollowTarget
   - EnemySpawnPoint
+  - ShopDialog
   layers:
   - Default
   - TransparentFX

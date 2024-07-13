@@ -33,54 +33,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "BuyUpgradeTest",
+                    "name": "OpenShop",
                     "type": "Button",
-                    "id": "c2792e79-eec6-4ff4-aad8-dbe9c7ba748a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "BuyUpgradeTest2",
-                    "type": "Button",
-                    "id": "e77732b3-21f2-4fa4-aceb-1546457b7f94",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "BuyUpgradeTest3",
-                    "type": "Button",
-                    "id": "6743b7c3-d78c-417a-9fab-1e40ec810596",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "BuyUpgradeTest4",
-                    "type": "Button",
-                    "id": "bb6b61fb-a029-4052-994d-fe7f644713af",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "BuyUpgradeTest5",
-                    "type": "Button",
-                    "id": "77cb8b23-4e95-4285-9ec6-b51279137054",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "BuyUpgradeTest6",
-                    "type": "Button",
-                    "id": "5dfdb0b9-abee-4b1c-b21e-1bfb6f93cd08",
+                    "id": "06f65968-749a-4d1c-9b7c-995cbab07f94",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -189,67 +144,12 @@
                 },
                 {
                     "name": "",
-                    "id": "4c71371e-7e9b-493b-9a40-38e39ea15e66",
-                    "path": "<Keyboard>/1",
+                    "id": "89578f28-215b-41f1-9cbc-81874d633957",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "BuyUpgradeTest",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "93514e63-62e6-4b9b-b1e2-326277e580ba",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BuyUpgradeTest2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5bb0a267-620f-4890-93a8-857e83da5ada",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BuyUpgradeTest3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "262317d3-a602-42f2-933f-7f05f1ed6191",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BuyUpgradeTest4",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "456215d2-c36b-4bfc-bf9c-5685b92898aa",
-                    "path": "<Keyboard>/5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BuyUpgradeTest5",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3bb2f166-3b3e-47db-91bd-729e52925bd6",
-                    "path": "<Keyboard>/6",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BuyUpgradeTest6",
+                    "action": "OpenShop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
