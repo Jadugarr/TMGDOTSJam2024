@@ -9,9 +9,11 @@ using UnityEngine;
 namespace PotatoFinch.TmgDotsJam.Shop {
 	public partial struct BuyUpgradeSystem : ISystem {
 		private EntityQuery _buyUpgradeQuery;
+		private EntityArchetype _spawnAllEnemiesArchetype;
 
 		public void OnCreate(ref SystemState state) {
 			_buyUpgradeQuery = state.GetEntityQuery(typeof(BuyUpgrade));
+			_spawnAllEnemiesArchetype = state.EntityManager.CreateArchetype(typeof(SpawnAllEnemiesTag));
 
 			state.RequireForUpdate<OwnedGold>();
 			state.RequireForUpdate<OriginalPlayerStats>();
@@ -78,11 +80,26 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 						foreach (RefRW<EnemySpawnCooldown> enemySpawnCooldown in SystemAPI.Query<RefRW<EnemySpawnCooldown>>()) {
 							enemySpawnCooldown.ValueRW.Cooldown -= 1f;
 						}
+
 						break;
 					case UpgradeType.Damage:
 						foreach (RefRW<DamageValue> damageValue in SystemAPI.Query<RefRW<DamageValue>>().WithOptions(EntityQueryOptions.IncludePrefab)) {
 							damageValue.ValueRW.Value = damageValue.ValueRO.OriginalValue * (1f + 0.2f * boughtUpgrade.CurrentLevel);
 						}
+
+						break;
+					case UpgradeType.AttackSpeed:
+						var availableAttacks = SystemAPI.GetSingletonBuffer<AvailableAttack>();
+
+						for (int i = 0; i < availableAttacks.Length; i++) {
+							AvailableAttack availableAttack = availableAttacks[i];
+							availableAttack.Cooldown = availableAttack.OriginalCooldown * (1f - 0.1f * boughtUpgrade.CurrentLevel);
+							availableAttacks[i] = availableAttack;
+						}
+
+						break;
+					case UpgradeType.EnemyRespawn:
+						ecb.CreateEntity(_spawnAllEnemiesArchetype);
 						break;
 					default:
 						Debug.LogError($"Undefined handling for upgrade type {buyUpgrade.ValueRO.Value}!");

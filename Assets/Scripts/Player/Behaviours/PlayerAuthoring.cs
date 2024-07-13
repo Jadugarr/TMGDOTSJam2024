@@ -17,7 +17,7 @@ namespace PotatoFinch.TmgDotsJam {
 				AddComponent(playerEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth });
 				AddComponent(playerEntity, new MovementSpeed { Value = authoring._movementSpeed });
 				AddBuffer<AvailableAttack>(playerEntity);
-				AppendToBuffer(playerEntity, new AvailableAttack { AttackType = AttackType.Bullet, Cooldown = 0.2f, Range = 8f });
+				AppendToBuffer(playerEntity, new AvailableAttack { AttackType = AttackType.Bullet, OriginalCooldown = 0.2f, Cooldown = 0.2f, Range = 8f });
 			}
 		}
 	}

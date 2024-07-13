@@ -67,6 +67,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BuyUpgradeTest5",
+                    "type": "Button",
+                    "id": "77cb8b23-4e95-4285-9ec6-b51279137054",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BuyUpgradeTest6",
+                    "type": "Button",
+                    "id": "5dfdb0b9-abee-4b1c-b21e-1bfb6f93cd08",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -210,6 +228,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "BuyUpgradeTest4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "456215d2-c36b-4bfc-bf9c-5685b92898aa",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuyUpgradeTest5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3bb2f166-3b3e-47db-91bd-729e52925bd6",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuyUpgradeTest6",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

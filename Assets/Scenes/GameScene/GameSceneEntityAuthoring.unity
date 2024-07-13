@@ -207,13 +207,13 @@ MonoBehaviour:
   - UpgradeType: 10
     Name: Movement Speed
     Description: Increases movement speed by 10% per level.
-    Cost: 3
+    Cost: 1
     MaxLevel: 5
   - UpgradeType: 20
     Name: Reset Timer
     Description: Reset the clock!
-    Cost: 2
-    MaxLevel: 99
+    Cost: 1
+    MaxLevel: 99999
   - UpgradeType: 30
     Name: Enemy Spawn Cooldown
     Description: Make new enemies appear faster! 1 second faster per Level.
@@ -224,6 +224,16 @@ MonoBehaviour:
     Description: Increases projectile damage by 20% per level.
     Cost: 1
     MaxLevel: 10
+  - UpgradeType: 50
+    Name: Attack Speed
+    Description: Decreases attack cooldown by 10% per level.
+    Cost: 1
+    MaxLevel: 10
+  - UpgradeType: 60
+    Name: Respawn all enemies
+    Description: Nothing to kill? Just bring them all back!
+    Cost: 1
+    MaxLevel: 99999
 --- !u!4 &629451574
 Transform:
   m_ObjectHideFlags: 0

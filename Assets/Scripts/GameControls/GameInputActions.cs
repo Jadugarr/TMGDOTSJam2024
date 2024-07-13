@@ -91,6 +91,24 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuyUpgradeTest5"",
+                    ""type"": ""Button"",
+                    ""id"": ""77cb8b23-4e95-4285-9ec6-b51279137054"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuyUpgradeTest6"",
+                    ""type"": ""Button"",
+                    ""id"": ""5dfdb0b9-abee-4b1c-b21e-1bfb6f93cd08"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -236,6 +254,28 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""action"": ""BuyUpgradeTest4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""456215d2-c36b-4bfc-bf9c-5685b92898aa"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuyUpgradeTest5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3bb2f166-3b3e-47db-91bd-729e52925bd6"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuyUpgradeTest6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -251,6 +291,8 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             m_Gameplay_BuyUpgradeTest2 = m_Gameplay.FindAction("BuyUpgradeTest2", throwIfNotFound: true);
             m_Gameplay_BuyUpgradeTest3 = m_Gameplay.FindAction("BuyUpgradeTest3", throwIfNotFound: true);
             m_Gameplay_BuyUpgradeTest4 = m_Gameplay.FindAction("BuyUpgradeTest4", throwIfNotFound: true);
+            m_Gameplay_BuyUpgradeTest5 = m_Gameplay.FindAction("BuyUpgradeTest5", throwIfNotFound: true);
+            m_Gameplay_BuyUpgradeTest6 = m_Gameplay.FindAction("BuyUpgradeTest6", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -319,6 +361,8 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         private readonly InputAction m_Gameplay_BuyUpgradeTest2;
         private readonly InputAction m_Gameplay_BuyUpgradeTest3;
         private readonly InputAction m_Gameplay_BuyUpgradeTest4;
+        private readonly InputAction m_Gameplay_BuyUpgradeTest5;
+        private readonly InputAction m_Gameplay_BuyUpgradeTest6;
         public struct GameplayActions
         {
             private @GameInputActions m_Wrapper;
@@ -330,6 +374,8 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             public InputAction @BuyUpgradeTest2 => m_Wrapper.m_Gameplay_BuyUpgradeTest2;
             public InputAction @BuyUpgradeTest3 => m_Wrapper.m_Gameplay_BuyUpgradeTest3;
             public InputAction @BuyUpgradeTest4 => m_Wrapper.m_Gameplay_BuyUpgradeTest4;
+            public InputAction @BuyUpgradeTest5 => m_Wrapper.m_Gameplay_BuyUpgradeTest5;
+            public InputAction @BuyUpgradeTest6 => m_Wrapper.m_Gameplay_BuyUpgradeTest6;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -360,6 +406,12 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @BuyUpgradeTest4.started += instance.OnBuyUpgradeTest4;
                 @BuyUpgradeTest4.performed += instance.OnBuyUpgradeTest4;
                 @BuyUpgradeTest4.canceled += instance.OnBuyUpgradeTest4;
+                @BuyUpgradeTest5.started += instance.OnBuyUpgradeTest5;
+                @BuyUpgradeTest5.performed += instance.OnBuyUpgradeTest5;
+                @BuyUpgradeTest5.canceled += instance.OnBuyUpgradeTest5;
+                @BuyUpgradeTest6.started += instance.OnBuyUpgradeTest6;
+                @BuyUpgradeTest6.performed += instance.OnBuyUpgradeTest6;
+                @BuyUpgradeTest6.canceled += instance.OnBuyUpgradeTest6;
             }
 
             private void UnregisterCallbacks(IGameplayActions instance)
@@ -385,6 +437,12 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @BuyUpgradeTest4.started -= instance.OnBuyUpgradeTest4;
                 @BuyUpgradeTest4.performed -= instance.OnBuyUpgradeTest4;
                 @BuyUpgradeTest4.canceled -= instance.OnBuyUpgradeTest4;
+                @BuyUpgradeTest5.started -= instance.OnBuyUpgradeTest5;
+                @BuyUpgradeTest5.performed -= instance.OnBuyUpgradeTest5;
+                @BuyUpgradeTest5.canceled -= instance.OnBuyUpgradeTest5;
+                @BuyUpgradeTest6.started -= instance.OnBuyUpgradeTest6;
+                @BuyUpgradeTest6.performed -= instance.OnBuyUpgradeTest6;
+                @BuyUpgradeTest6.canceled -= instance.OnBuyUpgradeTest6;
             }
 
             public void RemoveCallbacks(IGameplayActions instance)
@@ -411,6 +469,8 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             void OnBuyUpgradeTest2(InputAction.CallbackContext context);
             void OnBuyUpgradeTest3(InputAction.CallbackContext context);
             void OnBuyUpgradeTest4(InputAction.CallbackContext context);
+            void OnBuyUpgradeTest5(InputAction.CallbackContext context);
+            void OnBuyUpgradeTest6(InputAction.CallbackContext context);
         }
     }
 }

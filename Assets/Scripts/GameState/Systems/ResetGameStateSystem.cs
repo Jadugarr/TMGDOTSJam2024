@@ -68,6 +68,16 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 			foreach (RefRW<DamageValue> damageValue in SystemAPI.Query<RefRW<DamageValue>>().WithOptions(EntityQueryOptions.IncludePrefab)) {
 				damageValue.ValueRW.Value = damageValue.ValueRO.OriginalValue;
 			}
+			
+			// Reset attack speed
+			var availableAttacks = SystemAPI.GetSingletonBuffer<AvailableAttack>();
+
+			for (int i = 0; i < availableAttacks.Length; i++) {
+				AvailableAttack availableAttack = availableAttacks[i];
+				availableAttack.Cooldown = availableAttack.OriginalCooldown;
+				availableAttack.CurrentCooldown = availableAttack.OriginalCooldown;
+				availableAttacks[i] = availableAttack;
+			}
 		}
 
 		[BurstCompile]

@@ -5,5 +5,7 @@
 		TimerReset = 20,
 		EnemySpawnCooldown = 30,
 		Damage = 40,
+		AttackSpeed = 50,
+		EnemyRespawn = 60,
 	}
 }
