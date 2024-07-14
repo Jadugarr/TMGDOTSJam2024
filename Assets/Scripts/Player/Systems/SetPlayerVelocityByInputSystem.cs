@@ -5,6 +5,7 @@ using PotatoFinch.TmgDotsJam.Movement;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace PotatoFinch.TmgDotsJam {
 	[UpdateInGroup(typeof(PlayerSystemGroup))]
@@ -31,8 +32,9 @@ namespace PotatoFinch.TmgDotsJam {
 			}
 
 			var movementVector = new float3(currentGameInput.CurrentMovementInputVector.x, 0f, currentGameInput.CurrentMovementInputVector.y);
-			movementVector = gameCameraComponent.Value.transform.rotation * movementVector;
+			movementVector = Quaternion.Euler(0f, gameCameraComponent.Value.transform.eulerAngles.y, 0f) * movementVector;
 			movementVector.y = 0f;
+			movementVector = math.normalize(movementVector);
 			playerVelocity.ValueRW.Value = movementVector * movementSpeed.ValueRO.Value * gameTimeComponent.DeltaTime;
 		}
 
