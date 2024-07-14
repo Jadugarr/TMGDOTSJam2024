@@ -39,15 +39,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""KillRandomEnemy"",
-                    ""type"": ""Button"",
-                    ""id"": ""325cdd55-f963-4f4c-9a01-3689e3668ffc"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""PauseGame"",
                     ""type"": ""Button"",
                     ""id"": ""178472dd-59e4-40c7-9f7f-8c2911b62683"",
@@ -135,17 +126,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bbe00384-e245-4a41-bae8-dca4c7b300c1"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""KillRandomEnemy"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""8c27a173-149f-4c8f-b3ee-6791adb5279b"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -185,7 +165,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             // Gameplay
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
             m_Gameplay_PlayerMovement = m_Gameplay.FindAction("PlayerMovement", throwIfNotFound: true);
-            m_Gameplay_KillRandomEnemy = m_Gameplay.FindAction("KillRandomEnemy", throwIfNotFound: true);
             m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
             m_Gameplay_OpenShop = m_Gameplay.FindAction("OpenShop", throwIfNotFound: true);
         }
@@ -250,7 +229,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         private readonly InputActionMap m_Gameplay;
         private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
         private readonly InputAction m_Gameplay_PlayerMovement;
-        private readonly InputAction m_Gameplay_KillRandomEnemy;
         private readonly InputAction m_Gameplay_PauseGame;
         private readonly InputAction m_Gameplay_OpenShop;
         public struct GameplayActions
@@ -258,7 +236,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
             private @GameInputActions m_Wrapper;
             public GameplayActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @PlayerMovement => m_Wrapper.m_Gameplay_PlayerMovement;
-            public InputAction @KillRandomEnemy => m_Wrapper.m_Gameplay_KillRandomEnemy;
             public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
             public InputAction @OpenShop => m_Wrapper.m_Gameplay_OpenShop;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
@@ -273,9 +250,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @PlayerMovement.started += instance.OnPlayerMovement;
                 @PlayerMovement.performed += instance.OnPlayerMovement;
                 @PlayerMovement.canceled += instance.OnPlayerMovement;
-                @KillRandomEnemy.started += instance.OnKillRandomEnemy;
-                @KillRandomEnemy.performed += instance.OnKillRandomEnemy;
-                @KillRandomEnemy.canceled += instance.OnKillRandomEnemy;
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
@@ -289,9 +263,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
                 @PlayerMovement.started -= instance.OnPlayerMovement;
                 @PlayerMovement.performed -= instance.OnPlayerMovement;
                 @PlayerMovement.canceled -= instance.OnPlayerMovement;
-                @KillRandomEnemy.started -= instance.OnKillRandomEnemy;
-                @KillRandomEnemy.performed -= instance.OnKillRandomEnemy;
-                @KillRandomEnemy.canceled -= instance.OnKillRandomEnemy;
                 @PauseGame.started -= instance.OnPauseGame;
                 @PauseGame.performed -= instance.OnPauseGame;
                 @PauseGame.canceled -= instance.OnPauseGame;
@@ -318,7 +289,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls
         public interface IGameplayActions
         {
             void OnPlayerMovement(InputAction.CallbackContext context);
-            void OnKillRandomEnemy(InputAction.CallbackContext context);
             void OnPauseGame(InputAction.CallbackContext context);
             void OnOpenShop(InputAction.CallbackContext context);
         }

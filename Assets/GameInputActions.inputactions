@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "KillRandomEnemy",
-                    "type": "Button",
-                    "id": "325cdd55-f963-4f4c-9a01-3689e3668ffc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "PauseGame",
                     "type": "Button",
                     "id": "178472dd-59e4-40c7-9f7f-8c2911b62683",
@@ -106,17 +97,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlayerMovement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "bbe00384-e245-4a41-bae8-dca4c7b300c1",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "KillRandomEnemy",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

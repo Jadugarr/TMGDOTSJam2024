@@ -9,7 +9,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		private GameInputActions _gameInputActions;
 
 		private Vector2 _currentMovementInputVector;
-		private bool _killRandomEnemy;
 		private bool _togglePause;
 		private bool _openShop;
 
@@ -21,8 +20,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 
 			_gameInputActions.Gameplay.PlayerMovement.performed += OnPlayerMovementPerformed;
 			_gameInputActions.Gameplay.PlayerMovement.canceled += OnPlayerMovementCanceled;
-
-			_gameInputActions.Gameplay.KillRandomEnemy.performed += OnKillRandomEnemyPerformed;
 
 			_gameInputActions.Gameplay.PauseGame.performed += OnPauseGamePerformed;
 
@@ -44,10 +41,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			_currentMovementInputVector = currentMovementInputVector;
 		}
 
-		private void OnKillRandomEnemyPerformed(InputAction.CallbackContext _) {
-			_killRandomEnemy = true;
-		}
-
 		private void OnPauseGamePerformed(InputAction.CallbackContext _) {
 			_togglePause = true;
 		}
@@ -56,7 +49,6 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			if (_ignoreInputQuery.CalculateEntityCount() > 0) {
 				SystemAPI.SetSingleton(new CurrentGameInput {
 					CurrentMovementInputVector = Vector2.zero,
-					KillRandomEnemy = false,
 					TogglePause = false,
 					OpenShop = false,
 				});
@@ -64,13 +56,11 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 			else {
 				SystemAPI.SetSingleton(new CurrentGameInput {
 					CurrentMovementInputVector = _currentMovementInputVector,
-					KillRandomEnemy = _killRandomEnemy,
 					TogglePause = _togglePause,
 					OpenShop = _openShop,
 				});
 			}
 
-			_killRandomEnemy = false;
 			_togglePause = false;
 			_openShop = false;
 		}
