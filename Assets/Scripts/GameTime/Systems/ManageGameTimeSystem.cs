@@ -1,16 +1,20 @@
-﻿using Unity.Burst;
+﻿using PotatoFinch.TmgDotsJam.GameState;
+using Unity.Burst;
 using Unity.Entities;
 
 namespace PotatoFinch.TmgDotsJam.GameTime {
 	[UpdateInGroup(typeof(GameTimeSystemGroup))]
 	public partial struct ManageGameTimeSystem : ISystem {
 		private EntityQuery _gamePausedQuery;
+		private EntityArchetype _resetGameArchetype;
 		
 		public void OnCreate(ref SystemState state) {
+			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
 			var gameTimeEntity = state.EntityManager.CreateEntity(typeof(GameTimeComponent));
 			SystemAPI.SetComponent(gameTimeEntity, new GameTimeComponent { TotalTime = 30f, RemainingTime = 30f });
 
 			_gamePausedQuery = state.GetEntityQuery(typeof(GamePausedTag));
+			_resetGameArchetype = state.EntityManager.CreateArchetype(typeof(ResetGameTag));
 
 			state.RequireForUpdate<GameTimeComponent>();
 		}
@@ -20,7 +24,7 @@ namespace PotatoFinch.TmgDotsJam.GameTime {
 			var gameTimeComponent = SystemAPI.GetSingletonRW<GameTimeComponent>();
 
 			if (gameTimeComponent.ValueRO.RemainingTime <= 0f) {
-				gameTimeComponent.ValueRW.RemainingTime = gameTimeComponent.ValueRO.TotalTime;
+				SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged).CreateEntity(_resetGameArchetype);
 				return;
 			}
 

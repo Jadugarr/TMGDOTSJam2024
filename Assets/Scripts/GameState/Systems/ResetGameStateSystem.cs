@@ -1,5 +1,6 @@
 ﻿using PotatoFinch.TmgDotsJam.Combat;
 using PotatoFinch.TmgDotsJam.Enemy;
+using PotatoFinch.TmgDotsJam.GameControls;
 using PotatoFinch.TmgDotsJam.GameTime;
 using PotatoFinch.TmgDotsJam.Health;
 using PotatoFinch.TmgDotsJam.Movement;
@@ -10,13 +11,21 @@ using Unity.Transforms;
 
 namespace PotatoFinch.TmgDotsJam.GameState {
 	[UpdateInGroup(typeof(GameStateSystemGroup))]
-	public partial struct ResetGameStateSystem : ISystem {
+	public partial struct ResetGameStateSystem : ISystem, ISystemStartStop {
 		private EntityQuery _destroyOnResetQuery;
+		private EntityQuery _resetGameQuery;
+		private EntityQuery _ignoreInputQuery;
+		private EntityQuery _wonGameQuery;
+		private EntityQuery _pauseQuery;
 		private EntityArchetype _forceRespawnEnemiesArchetype;
 
 		public void OnCreate(ref SystemState state) {
 			state.RequireForUpdate<OriginalEnemySpawnPointStats>();
 			_destroyOnResetQuery = state.GetEntityQuery(typeof(DestroyOnLoopResetTag));
+			_resetGameQuery = state.GetEntityQuery(typeof(ResetGameTag));
+			_ignoreInputQuery = state.GetEntityQuery(typeof(IgnoreInputTag));
+			_wonGameQuery = state.GetEntityQuery(typeof(WinGameTag));
+			_pauseQuery = state.GetEntityQuery(typeof(GamePausedTag));
 			_forceRespawnEnemiesArchetype = state.EntityManager.CreateArchetype(typeof(SpawnAllEnemiesTag));
 			
 			state.RequireForUpdate<OriginalPlayerStats>();
@@ -24,16 +33,10 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
 			state.RequireForUpdate<GameTimeComponent>();
 			state.RequireForUpdate<OwnedGold>();
+			state.RequireForUpdate<ResetGameTag>();
 		}
 
-		[BurstCompile]
-		public void OnUpdate(ref SystemState state) {
-			var gameTimeComponent = SystemAPI.GetSingleton<GameTimeComponent>();
-
-			if (gameTimeComponent.RemainingTime > 0f) {
-				return;
-			}
-
+		public void OnStartRunning(ref SystemState state) {
 			// Destroy all necessary objects
 			var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 			ecb.DestroyEntity(_destroyOnResetQuery, EntityQueryCaptureMode.AtPlayback);
@@ -78,6 +81,28 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 				availableAttack.CurrentCooldown = availableAttack.OriginalCooldown;
 				availableAttacks[i] = availableAttack;
 			}
+			
+			// Remove input lock
+			ecb.DestroyEntity(_ignoreInputQuery, EntityQueryCaptureMode.AtRecord);
+			
+			// Remove won tag
+			ecb.DestroyEntity(_wonGameQuery, EntityQueryCaptureMode.AtRecord);
+			
+			// Unpause
+			ecb.DestroyEntity(_pauseQuery, EntityQueryCaptureMode.AtRecord);
+			
+			// Reset time
+			var gameTimeComponent = SystemAPI.GetSingletonRW<GameTimeComponent>();
+			gameTimeComponent.ValueRW.RemainingTime = gameTimeComponent.ValueRO.TotalTime;
+			
+			ecb.DestroyEntity(_resetGameQuery, EntityQueryCaptureMode.AtRecord);
+		}
+
+		public void OnStopRunning(ref SystemState state) {
+		}
+
+		[BurstCompile]
+		public void OnUpdate(ref SystemState state) {
 		}
 
 		[BurstCompile]

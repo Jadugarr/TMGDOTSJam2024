@@ -10,10 +10,12 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 	public partial struct BuyUpgradeSystem : ISystem {
 		private EntityQuery _buyUpgradeQuery;
 		private EntityArchetype _spawnAllEnemiesArchetype;
+		private EntityArchetype _winGameArchetype;
 
 		public void OnCreate(ref SystemState state) {
 			_buyUpgradeQuery = state.GetEntityQuery(typeof(BuyUpgrade));
 			_spawnAllEnemiesArchetype = state.EntityManager.CreateArchetype(typeof(SpawnAllEnemiesTag));
+			_winGameArchetype = state.EntityManager.CreateArchetype(typeof(WinGameTag));
 
 			state.RequireForUpdate<OwnedGold>();
 			state.RequireForUpdate<OriginalPlayerStats>();
@@ -100,6 +102,9 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 						break;
 					case UpgradeType.EnemyRespawn:
 						ecb.CreateEntity(_spawnAllEnemiesArchetype);
+						break;
+					case UpgradeType.WinGame:
+						ecb.CreateEntity(_winGameArchetype);
 						break;
 					default:
 						Debug.LogError($"Undefined handling for upgrade type {buyUpgrade.ValueRO.Value}!");

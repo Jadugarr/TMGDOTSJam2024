@@ -7,5 +7,6 @@
 		Damage = 40,
 		AttackSpeed = 50,
 		EnemyRespawn = 60,
+		WinGame = 70,
 	}
 }

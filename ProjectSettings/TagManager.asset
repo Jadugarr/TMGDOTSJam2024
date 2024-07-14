@@ -8,6 +8,7 @@ TagManager:
   - EnemySpawnPoint
   - ShopDialog
   - OpenShopPrompt
+  - WinDialog
   layers:
   - Default
   - TransparentFX

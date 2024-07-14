@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 namespace PotatoFinch.TmgDotsJam.GameControls {
 	public partial class HandleGameInputSystem : SystemBase {
+		private EntityQuery _ignoreInputQuery;
+		
 		private GameInputActions _gameInputActions;
 
 		private Vector2 _currentMovementInputVector;
@@ -12,6 +14,8 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		private bool _openShop;
 
 		protected override void OnCreate() {
+			_ignoreInputQuery = EntityManager.CreateEntityQuery(typeof(IgnoreInputTag));
+			
 			_gameInputActions = new GameInputActions();
 			_gameInputActions.Enable();
 
@@ -49,12 +53,22 @@ namespace PotatoFinch.TmgDotsJam.GameControls {
 		}
 
 		protected override void OnUpdate() {
-			SystemAPI.SetSingleton(new CurrentGameInput {
-				CurrentMovementInputVector = _currentMovementInputVector,
-				KillRandomEnemy = _killRandomEnemy,
-				TogglePause = _togglePause,
-				OpenShop = _openShop,
-			});
+			if (_ignoreInputQuery.CalculateEntityCount() > 0) {
+				SystemAPI.SetSingleton(new CurrentGameInput {
+					CurrentMovementInputVector = Vector2.zero,
+					KillRandomEnemy = false,
+					TogglePause = false,
+					OpenShop = false,
+				});
+			}
+			else {
+				SystemAPI.SetSingleton(new CurrentGameInput {
+					CurrentMovementInputVector = _currentMovementInputVector,
+					KillRandomEnemy = _killRandomEnemy,
+					TogglePause = _togglePause,
+					OpenShop = _openShop,
+				});
+			}
 
 			_killRandomEnemy = false;
 			_togglePause = false;
