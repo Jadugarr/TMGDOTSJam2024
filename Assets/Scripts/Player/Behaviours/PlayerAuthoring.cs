@@ -14,6 +14,8 @@ namespace PotatoFinch.TmgDotsJam {
 				var playerEntity = GetEntity(authoring, TransformUsageFlags.Dynamic);
 				AddComponent<PlayerTag>(playerEntity);
 				AddComponent<Velocity>(playerEntity);
+				AddComponent<DamageCooldown>(playerEntity);
+				AddComponent<ColorLerpMaterialOverride>(playerEntity);
 				AddComponent(playerEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth });
 				AddComponent(playerEntity, new MovementSpeed { Value = authoring._movementSpeed });
 				AddBuffer<AvailableAttack>(playerEntity);

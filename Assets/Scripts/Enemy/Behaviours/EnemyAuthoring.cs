@@ -20,6 +20,7 @@ namespace PotatoFinch.TmgDotsJam.Enemy {
 				AddComponent<EnemySpawnPointId>(enemyEntity);
 				AddComponent<DestroyOnLoopResetTag>(enemyEntity);
 				AddComponent<ColorLerpMaterialOverride>(enemyEntity);
+				AddComponent(enemyEntity, new DamageValue{Value = 10f, OriginalValue = 10f});
 				AddComponent(enemyEntity, new CharacterHealth { MaxHealth = authoring._maxHealth, CurrentHealth = authoring._maxHealth});
 				AddComponent(enemyEntity, new MovementSpeed { Value = authoring._movementSpeed });
 				AddComponent(enemyEntity, new AggroRange { Value = authoring._aggroRange });

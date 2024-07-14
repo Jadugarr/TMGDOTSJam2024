@@ -27,7 +27,7 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 			_wonGameQuery = state.GetEntityQuery(typeof(WinGameTag));
 			_pauseQuery = state.GetEntityQuery(typeof(GamePausedTag));
 			_forceRespawnEnemiesArchetype = state.EntityManager.CreateArchetype(typeof(SpawnAllEnemiesTag));
-			
+
 			state.RequireForUpdate<OriginalPlayerStats>();
 			state.RequireForUpdate<PlayerTag>();
 			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
@@ -44,21 +44,25 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 			// Reset player stats
 			var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
 			var playerOriginalStats = SystemAPI.GetSingleton<OriginalPlayerStats>();
+			
+			if (SystemAPI.HasComponent<CharacterDeadTag>(playerEntity)) {
+				ecb.RemoveComponent<CharacterDeadTag>(playerEntity);
+			}
 
 			SystemAPI.GetComponentRW<LocalTransform>(playerEntity).ValueRW.Position = playerOriginalStats.OriginalPosition;
 			SystemAPI.GetComponentRW<CharacterHealth>(playerEntity).ValueRW.MaxHealth = playerOriginalStats.MaxHealth;
 			SystemAPI.GetComponentRW<CharacterHealth>(playerEntity).ValueRW.CurrentHealth = playerOriginalStats.MaxHealth;
 			SystemAPI.GetComponentRW<MovementSpeed>(playerEntity).ValueRW.Value = playerOriginalStats.MovementSpeed;
-			
+
 			// Reset owned gold
 			SystemAPI.GetSingletonRW<OwnedGold>().ValueRW.Value = 0;
-			
+
 			// Force respawn enemies
 			ecb.CreateEntity(_forceRespawnEnemiesArchetype);
-			
+
 			// Reset bought upgrades
 			SystemAPI.GetSingletonBuffer<BoughtUpgrade>().Clear();
-			
+
 			// Reset enemy spawn cooldowns
 			var originalEnemySpawnPointStats = SystemAPI.GetSingleton<OriginalEnemySpawnPointStats>();
 
@@ -66,12 +70,12 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 				enemySpawnCooldown.ValueRW.CurrentCooldown = originalEnemySpawnPointStats.SpawnCooldown;
 				enemySpawnCooldown.ValueRW.Cooldown = originalEnemySpawnPointStats.SpawnCooldown;
 			}
-			
+
 			// Reset damage values
 			foreach (RefRW<DamageValue> damageValue in SystemAPI.Query<RefRW<DamageValue>>().WithOptions(EntityQueryOptions.IncludePrefab)) {
 				damageValue.ValueRW.Value = damageValue.ValueRO.OriginalValue;
 			}
-			
+
 			// Reset attack speed
 			var availableAttacks = SystemAPI.GetSingletonBuffer<AvailableAttack>();
 
@@ -81,20 +85,20 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 				availableAttack.CurrentCooldown = availableAttack.OriginalCooldown;
 				availableAttacks[i] = availableAttack;
 			}
-			
+
 			// Remove input lock
 			ecb.DestroyEntity(_ignoreInputQuery, EntityQueryCaptureMode.AtRecord);
-			
+
 			// Remove won tag
 			ecb.DestroyEntity(_wonGameQuery, EntityQueryCaptureMode.AtRecord);
-			
+
 			// Unpause
 			ecb.DestroyEntity(_pauseQuery, EntityQueryCaptureMode.AtRecord);
-			
+
 			// Reset time
 			var gameTimeComponent = SystemAPI.GetSingletonRW<GameTimeComponent>();
 			gameTimeComponent.ValueRW.RemainingTime = gameTimeComponent.ValueRO.TotalTime;
-			
+
 			ecb.DestroyEntity(_resetGameQuery, EntityQueryCaptureMode.AtRecord);
 		}
 
@@ -107,7 +111,6 @@ namespace PotatoFinch.TmgDotsJam.GameState {
 
 		[BurstCompile]
 		public void OnDestroy(ref SystemState state) {
-
 		}
 	}
 }

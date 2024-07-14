@@ -7,11 +7,11 @@ using Unity.Entities;
 namespace PotatoFinch.TmgDotsJam.Health {
 	[UpdateInGroup(typeof(CharacterHealthSystemGroup))]
 	public partial struct HandleDeadCharactersSystem : ISystem {
-		private EntityQuery _deadCharactersQuery;
+		private EntityQuery _deadEnemiesQuery;
 		private EntityQuery _spawnPointQuery;
 		
 		public void OnCreate(ref SystemState state) {
-			_deadCharactersQuery = state.GetEntityQuery(typeof(CharacterDeadTag));
+			_deadEnemiesQuery = state.GetEntityQuery(typeof(CharacterDeadTag), typeof(EnemyTag));
 			_spawnPointQuery = state.GetEntityQuery(typeof(EnemySpawnPointId), typeof(EnemySpawnAmount));
 			
 			state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
@@ -20,7 +20,7 @@ namespace PotatoFinch.TmgDotsJam.Health {
 
 		[BurstCompile]
 		public void OnUpdate(ref SystemState state) {
-			if (_deadCharactersQuery.CalculateEntityCount() <= 0) {
+			if (_deadEnemiesQuery.CalculateEntityCount() <= 0) {
 				return;
 			}
 			
@@ -45,7 +45,7 @@ namespace PotatoFinch.TmgDotsJam.Health {
 				ownedGoldSingleton.ValueRW.Value += goldValue.ValueRO.Value;
 			}
 
-			ecb.DestroyEntity(_deadCharactersQuery, EntityQueryCaptureMode.AtRecord);
+			ecb.DestroyEntity(_deadEnemiesQuery, EntityQueryCaptureMode.AtRecord);
 		}
 
 		[BurstCompile]

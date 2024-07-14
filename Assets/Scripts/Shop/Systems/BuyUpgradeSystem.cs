@@ -85,7 +85,7 @@ namespace PotatoFinch.TmgDotsJam.Shop {
 
 						break;
 					case UpgradeType.Damage:
-						foreach (RefRW<DamageValue> damageValue in SystemAPI.Query<RefRW<DamageValue>>().WithOptions(EntityQueryOptions.IncludePrefab)) {
+						foreach (RefRW<DamageValue> damageValue in SystemAPI.Query<RefRW<DamageValue>>().WithAll<ProjectileTag>().WithOptions(EntityQueryOptions.IncludePrefab)) {
 							damageValue.ValueRW.Value = damageValue.ValueRO.OriginalValue * (1f + 0.2f * boughtUpgrade.CurrentLevel);
 						}
 
