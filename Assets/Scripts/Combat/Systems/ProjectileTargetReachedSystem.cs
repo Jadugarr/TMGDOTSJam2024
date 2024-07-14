@@ -30,6 +30,7 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 			var damageEnemiesJob = new DamageHitEnemiesJob {
 				ProjectileArray = projectileArray,
 				CharacterHealthLookup = SystemAPI.GetComponentLookup<CharacterHealth>(),
+				ColorLerpMaterialOverrideLookup = SystemAPI.GetComponentLookup<ColorLerpMaterialOverride>(),
 				TargetEnemyLookup = SystemAPI.GetComponentLookup<TargetEnemy>(true),
 				DamageValueLookup = SystemAPI.GetComponentLookup<DamageValue>(true),
 			}.Schedule(checkJobHandle);
@@ -91,6 +92,7 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 			[ReadOnly] public ComponentLookup<TargetEnemy> TargetEnemyLookup;
 			[ReadOnly] public ComponentLookup<DamageValue> DamageValueLookup;
 			public ComponentLookup<CharacterHealth> CharacterHealthLookup;
+			public ComponentLookup<ColorLerpMaterialOverride> ColorLerpMaterialOverrideLookup;
 
 
 			public void Execute() {
@@ -108,6 +110,7 @@ namespace PotatoFinch.TmgDotsJam.Combat {
 					}
 
 					CharacterHealthLookup[targetEnemy.Value] = new CharacterHealth { MaxHealth = enemyHealth.MaxHealth, CurrentHealth = enemyHealth.CurrentHealth - damageValue.Value };
+					ColorLerpMaterialOverrideLookup[targetEnemy.Value] = new ColorLerpMaterialOverride { Value = 1f };
 				}
 			}
 		}
